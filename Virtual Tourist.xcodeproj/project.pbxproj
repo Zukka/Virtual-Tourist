@@ -56,13 +56,11 @@
 		B6D6803C1F4EAC7B000273CD /* Virtual Tourist */ = {
 			isa = PBXGroup;
 			children = (
-				B6D680501F4EC851000273CD /* New Group */,
+				B6D680501F4EC851000273CD /* Model */,
 				B6D6804F1F4EAEEF000273CD /* Controller */,
 				B6D6803D1F4EAC7B000273CD /* AppDelegate.swift */,
-				B6D680411F4EAC7B000273CD /* Main.storyboard */,
-				B6D680441F4EAC7B000273CD /* Assets.xcassets */,
-				B6D680461F4EAC7B000273CD /* LaunchScreen.storyboard */,
-				B6D680491F4EAC7B000273CD /* Info.plist */,
+				B6D680571F4F06FE000273CD /* Assets */,
+				B6D680561F4F06D0000273CD /* Supporting Files */,
 			);
 			path = "Virtual Tourist";
 			sourceTree = "<group>";
@@ -75,12 +73,30 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
-		B6D680501F4EC851000273CD /* New Group */ = {
+		B6D680501F4EC851000273CD /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				B6D680511F4EC8ED000273CD /* Model.xcdatamodeld */,
 			);
-			name = "New Group";
+			name = Model;
+			sourceTree = "<group>";
+		};
+		B6D680561F4F06D0000273CD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B6D680491F4EAC7B000273CD /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B6D680571F4F06FE000273CD /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				B6D680411F4EAC7B000273CD /* Main.storyboard */,
+				B6D680441F4EAC7B000273CD /* Assets.xcassets */,
+				B6D680461F4EAC7B000273CD /* LaunchScreen.storyboard */,
+			);
+			name = Assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

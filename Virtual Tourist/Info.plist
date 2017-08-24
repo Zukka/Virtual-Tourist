@@ -40,6 +40,8 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
+    </array>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Udacity virtual tourist map</string>
 </dict>
 </plist>
