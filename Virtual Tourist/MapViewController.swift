@@ -25,11 +25,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.positionManager = CLLocationManager()
-        positionManager.delegate = self
-        positionManager.requestWhenInUseAuthorization()
-        positionManager.pausesLocationUpdatesAutomatically = false
-        positionManager.startUpdatingLocation()
+        preparePositionManager()
+        
+        addGestureRecognizerToMapView()
         
         // move infoView down over the screen for initial view
         infoView.transform = CGAffineTransform(translationX: 0, y: 75)
@@ -89,7 +87,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.mapView.setRegion(region, animated: true)
     }
     
-    
+    func preparePositionManager() {
+        self.positionManager = CLLocationManager()
+        positionManager.delegate = self
+        positionManager.requestWhenInUseAuthorization()
+        positionManager.pausesLocationUpdatesAutomatically = false
+        positionManager.startUpdatingLocation()
+    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
@@ -99,5 +103,47 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         UserDefaults.standard.set(self.mapView.region.span.latitudeDelta, forKey: "PreviousLatitudeSpan")
         UserDefaults.standard.set(self.mapView.region.span.longitudeDelta, forKey: "PreviousongitudeSpan")
     }
-}
 
+    func addGestureRecognizerToMapView() {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(addAnnotationOnLongPress(gesture:)))
+        longPressGesture.minimumPressDuration = 1.0
+        self.mapView.addGestureRecognizer(longPressGesture)
+    }
+    
+    func addAnnotationOnLongPress(gesture: UILongPressGestureRecognizer) {
+        
+        if gesture.state == .ended {
+            let point = gesture.location(in: self.mapView)
+            let coordinate = self.mapView.convert(point, toCoordinateFrom: self.mapView)
+            print(coordinate)
+            //Now use this coordinate to add annotation on map.
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            self.mapView.addAnnotation(annotation)
+        }
+    }
+    
+    // MARK: - MKMapViewDelegate
+    
+    // Here we create a view with a "right callout accessory view". You might choose to look into other
+    // decoration alternatives. Notice the similarity between this method and the cellForRowAtIndexPath
+    // method in TableViewDataSource.
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.canShowCallout = true
+            pinView!.pinTintColor = .red
+            pinView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        }
+        else {
+            pinView!.annotation = annotation
+        }
+        return pinView
+    }
+    
+    
+    
+}
