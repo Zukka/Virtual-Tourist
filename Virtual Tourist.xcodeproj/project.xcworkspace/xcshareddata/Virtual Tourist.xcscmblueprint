@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "41CB555833D2DED41EC4EFBD2D018751FFBAFB06",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "0A10BC18603A43621DCBAE722E6CEE8049F6CC86" : 9223372036854775807,
+    "41CB555833D2DED41EC4EFBD2D018751FFBAFB06" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "5E3A7A08-5AEE-4136-8B1A-FE2D5D4DE51A",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "0A10BC18603A43621DCBAE722E6CEE8049F6CC86" : "",
+    "41CB555833D2DED41EC4EFBD2D018751FFBAFB06" : "Virtual%20Tourist\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Virtual Tourist",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Virtual Tourist.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Zukka\/OnTheMap.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0A10BC18603A43621DCBAE722E6CEE8049F6CC86"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Zukka\/Virtual-Tourist.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "41CB555833D2DED41EC4EFBD2D018751FFBAFB06"
+    }
+  ]
+}
