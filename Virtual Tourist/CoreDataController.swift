@@ -47,7 +47,7 @@ class CoreDataController {
         
         let request: NSFetchRequest<Pin> = NSFetchRequest(entityName: "Pin")
         request.returnsObjectsAsFaults = false
-        print("[CDC] Recupero tutti i libri dal context ")
+        print("[CDC] Retrive all pin from context ")
         
         request.returnsObjectsAsFaults = false
         

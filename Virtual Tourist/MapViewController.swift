@@ -161,6 +161,4 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         return pinView
     }
     
-    
-    
 }
