@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vEZ-OX-pDL">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Map View Controller-->
+        <!--Virtual Tourist-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MapViewController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
@@ -20,11 +20,74 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="zIf-Iw-rfw">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            </mapView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GPY-ZO-bhE">
+                                <rect key="frame" x="0.0" y="592" width="375" height="75"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pins to Delete" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gLi-f3-3ZW">
+                                        <rect key="frame" x="110.5" y="26" width="154" height="23"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.37633629000000002" blue="0.1973468602" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstItem="gLi-f3-3ZW" firstAttribute="centerY" secondItem="GPY-ZO-bhE" secondAttribute="centerY" id="PsC-Hn-VMi"/>
+                                    <constraint firstAttribute="height" constant="75" id="VWb-bR-1ah"/>
+                                    <constraint firstItem="gLi-f3-3ZW" firstAttribute="centerX" secondItem="GPY-ZO-bhE" secondAttribute="centerX" id="r94-h5-G7U"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="GPY-ZO-bhE" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="2mY-9n-2w2"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="GPY-ZO-bhE" secondAttribute="bottom" id="4Dr-Ti-8t5"/>
+                            <constraint firstItem="zIf-Iw-rfw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="BrN-EY-Roz"/>
+                            <constraint firstItem="zIf-Iw-rfw" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="DbS-pl-wci"/>
+                            <constraint firstAttribute="trailing" secondItem="GPY-ZO-bhE" secondAttribute="trailing" id="Hfi-Ro-8Us"/>
+                            <constraint firstItem="GPY-ZO-bhE" firstAttribute="top" secondItem="zIf-Iw-rfw" secondAttribute="bottom" constant="-75" id="KXj-n1-Mxa"/>
+                            <constraint firstItem="GPY-ZO-bhE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="QFL-q0-CVq"/>
+                            <constraint firstAttribute="trailing" secondItem="zIf-Iw-rfw" secondAttribute="trailing" id="fFo-Bc-Q1O"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Virtual Tourist" id="0Ky-1k-ONO">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="21o-lg-MH8">
+                            <connections>
+                                <action selector="editButtonPressed:" destination="BYZ-38-t0r" id="J1j-IR-H6M"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="editButton" destination="21o-lg-MH8" id="CMG-3Q-r6a"/>
+                        <outlet property="infoView" destination="GPY-ZO-bhE" id="BgH-WQ-cGP"/>
+                        <outlet property="mapView" destination="zIf-Iw-rfw" id="Vss-m3-n99"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="972" y="38.23088455772114"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="MgJ-E7-rug">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vEZ-OX-pDL" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6FO-m3-YuM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="W5o-q4-07t"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lh9-nY-Ihd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="32.799999999999997" y="38.23088455772114"/>
         </scene>
     </scenes>
 </document>

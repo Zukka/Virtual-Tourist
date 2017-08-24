@@ -12,6 +12,7 @@
 		B6D680431F4EAC7B000273CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6D680411F4EAC7B000273CD /* Main.storyboard */; };
 		B6D680451F4EAC7B000273CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6D680441F4EAC7B000273CD /* Assets.xcassets */; };
 		B6D680481F4EAC7B000273CD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6D680461F4EAC7B000273CD /* LaunchScreen.storyboard */; };
+		B6D680531F4EC8ED000273CD /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B6D680511F4EC8ED000273CD /* Model.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		B6D680441F4EAC7B000273CD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B6D680471F4EAC7B000273CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6D680491F4EAC7B000273CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B6D680521F4EC8ED000273CD /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 		B6D6803C1F4EAC7B000273CD /* Virtual Tourist */ = {
 			isa = PBXGroup;
 			children = (
+				B6D680501F4EC851000273CD /* New Group */,
 				B6D6804F1F4EAEEF000273CD /* Controller */,
 				B6D6803D1F4EAC7B000273CD /* AppDelegate.swift */,
 				B6D680411F4EAC7B000273CD /* Main.storyboard */,
@@ -70,6 +73,14 @@
 				B6D6803F1F4EAC7B000273CD /* MapViewController.swift */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		B6D680501F4EC851000273CD /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				B6D680511F4EC8ED000273CD /* Model.xcdatamodeld */,
+			);
+			name = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,6 +157,7 @@
 			files = (
 				B6D680401F4EAC7B000273CD /* MapViewController.swift in Sources */,
 				B6D6803E1F4EAC7B000273CD /* AppDelegate.swift in Sources */,
+				B6D680531F4EC8ED000273CD /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +323,19 @@
 			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B6D680511F4EC8ED000273CD /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B6D680521F4EC8ED000273CD /* Model.xcdatamodel */,
+			);
+			currentVersion = B6D680521F4EC8ED000273CD /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B6D680321F4EAC7B000273CD /* Project object */;
 }
