@@ -43,6 +43,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         } else {
             UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
         }
+        
+        // Load Pins from CoreData
+        let Pins: [Pin] = CoreDataController.shared.loadAllPin()
+        if Pins.count > 0 {
+            appendPinsToMap(Pins: Pins)
+        }
     }
 
     // MARK: IBAction
@@ -81,7 +87,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     // Move map to last position
     func restoreOldMap(prevLatitude: Double, prevLongitude: Double, prevLatitudeDelta: Double, prevLongitudeDelta: Double) {
-        self.userPosition =  CLLocationCoordinate2DMake(prevLatitude, prevLongitude)
+        self.userPosition = CLLocationCoordinate2DMake(prevLatitude, prevLongitude)
         let span = MKCoordinateSpanMake(prevLatitudeDelta, prevLongitudeDelta)
         let region = MKCoordinateRegion(center: userPosition, span: span)
         self.mapView.setRegion(region, animated: true)
@@ -115,14 +121,25 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         if gesture.state == .ended {
             let point = gesture.location(in: self.mapView)
             let coordinate = self.mapView.convert(point, toCoordinateFrom: self.mapView)
-            print(coordinate)
             //Now use this coordinate to add annotation on map.
             let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            // Add pin to CoreData
+            let success = CoreDataController.shared.addPin(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            if success {
+                self.mapView.addAnnotation(annotation)
+            }
+        }
+    }
+    
+    func appendPinsToMap(Pins: [Pin]) {
+        for item in Pins {
+            let annotation = MKPointAnnotation()
+            let coordinate = CLLocationCoordinate2DMake(item.latitude, item.longitude)
             annotation.coordinate = coordinate
             self.mapView.addAnnotation(annotation)
         }
     }
-    
     // MARK: - MKMapViewDelegate
     
     // Here we create a view with a "right callout accessory view". You might choose to look into other

@@ -17,6 +17,7 @@
 		B6D6805D1F4F272F000273CD /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D680591F4F272F000273CD /* Pin+CoreDataProperties.swift */; };
 		B6D6805E1F4F272F000273CD /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D6805A1F4F272F000273CD /* Photo+CoreDataClass.swift */; };
 		B6D6805F1F4F272F000273CD /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D6805B1F4F272F000273CD /* Photo+CoreDataProperties.swift */; };
+		B6D680631F4F2ED2000273CD /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D680621F4F2ED2000273CD /* CoreDataController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		B6D680591F4F272F000273CD /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Pin+CoreDataProperties.swift"; path = "../Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B6D6805A1F4F272F000273CD /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Photo+CoreDataClass.swift"; path = "../Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B6D6805B1F4F272F000273CD /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Photo+CoreDataProperties.swift"; path = "../Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B6D680621F4F2ED2000273CD /* CoreDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +66,7 @@
 		B6D6803C1F4EAC7B000273CD /* Virtual Tourist */ = {
 			isa = PBXGroup;
 			children = (
-				B6D680501F4EC851000273CD /* Model */,
+				B6D680501F4EC851000273CD /* Models */,
 				B6D6804F1F4EAEEF000273CD /* Controller */,
 				B6D6803D1F4EAC7B000273CD /* AppDelegate.swift */,
 				B6D680571F4F06FE000273CD /* Assets */,
@@ -81,16 +83,17 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
-		B6D680501F4EC851000273CD /* Model */ = {
+		B6D680501F4EC851000273CD /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				B6D680581F4F272F000273CD /* Pin+CoreDataClass.swift */,
+				B6D680621F4F2ED2000273CD /* CoreDataController.swift */,
 				B6D680591F4F272F000273CD /* Pin+CoreDataProperties.swift */,
 				B6D6805A1F4F272F000273CD /* Photo+CoreDataClass.swift */,
 				B6D6805B1F4F272F000273CD /* Photo+CoreDataProperties.swift */,
 				B6D680511F4EC8ED000273CD /* Model.xcdatamodeld */,
 			);
-			name = Model;
+			name = Models;
 			sourceTree = "<group>";
 		};
 		B6D680561F4F06D0000273CD /* Supporting Files */ = {
@@ -185,6 +188,7 @@
 			files = (
 				B6D6805F1F4F272F000273CD /* Photo+CoreDataProperties.swift in Sources */,
 				B6D6805E1F4F272F000273CD /* Photo+CoreDataClass.swift in Sources */,
+				B6D680631F4F2ED2000273CD /* CoreDataController.swift in Sources */,
 				B6D680401F4EAC7B000273CD /* MapViewController.swift in Sources */,
 				B6D6805C1F4F272F000273CD /* Pin+CoreDataClass.swift in Sources */,
 				B6D6803E1F4EAC7B000273CD /* AppDelegate.swift in Sources */,
