@@ -58,6 +58,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         do {
             let Pins: [Pin] = try sharedObjectContext.fetch(fr) as! [Pin]
+            print(Pins.count)
             if Pins.count > 0 {
                 appendPinsToMap(Pins: Pins)
             }
@@ -142,7 +143,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             
             // Add pin to CoreData
             let newPinAdded = Pin(latitude: coordinate.latitude, longitude: coordinate.longitude, title: "", subtitle: "", context: sharedObjectContext)
-            
+            // save context
+            do {
+                try sharedObjectContext.save()
+            } catch {
+                print(error.localizedDescription)
+            }
             // Add pin to MapView
             self.mapPin.append(newPinAdded)
             mapView.addAnnotation(annotation)
@@ -170,7 +176,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         if editButton.title == "Done" {
             for item in mapPin {
-                if item.latitude == view.annotation!.coordinate.latitude && item.longitude == view.annotation!.coordinate.longitude {
+                if item.latitude == view.annotation?.coordinate.latitude && item.longitude == view.annotation?.coordinate.longitude {
                     // remove PIN from CoreData
                     sharedObjectContext.delete(item)
                     
