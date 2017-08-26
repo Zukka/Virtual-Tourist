@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B626111A1F51834600835FAC /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62611191F51834600835FAC /* CoreDataStack.swift */; };
 		B6D6803E1F4EAC7B000273CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D6803D1F4EAC7B000273CD /* AppDelegate.swift */; };
 		B6D680401F4EAC7B000273CD /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D6803F1F4EAC7B000273CD /* MapViewController.swift */; };
 		B6D680431F4EAC7B000273CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6D680411F4EAC7B000273CD /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B62611191F51834600835FAC /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		B6D6803A1F4EAC7B000273CD /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6D6803D1F4EAC7B000273CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6D6803F1F4EAC7B000273CD /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 		B6D6804F1F4EAEEF000273CD /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B6D680621F4F2ED2000273CD /* CoreDataController.swift */,
 				B6D6803F1F4EAC7B000273CD /* MapViewController.swift */,
 			);
 			name = Controller;
@@ -87,7 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				B6D680581F4F272F000273CD /* Pin+CoreDataClass.swift */,
-				B6D680621F4F2ED2000273CD /* CoreDataController.swift */,
+				B62611191F51834600835FAC /* CoreDataStack.swift */,
 				B6D680591F4F272F000273CD /* Pin+CoreDataProperties.swift */,
 				B6D6805A1F4F272F000273CD /* Photo+CoreDataClass.swift */,
 				B6D6805B1F4F272F000273CD /* Photo+CoreDataProperties.swift */,
@@ -146,6 +149,7 @@
 				TargetAttributes = {
 					B6D680391F4EAC7B000273CD = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = J2V8EZ5Q7Z;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -191,6 +195,7 @@
 				B6D680631F4F2ED2000273CD /* CoreDataController.swift in Sources */,
 				B6D680401F4EAC7B000273CD /* MapViewController.swift in Sources */,
 				B6D6805C1F4F272F000273CD /* Pin+CoreDataClass.swift in Sources */,
+				B626111A1F51834600835FAC /* CoreDataStack.swift in Sources */,
 				B6D6803E1F4EAC7B000273CD /* AppDelegate.swift in Sources */,
 				B6D6805D1F4F272F000273CD /* Pin+CoreDataProperties.swift in Sources */,
 				B6D680531F4EC8ED000273CD /* Model.xcdatamodeld in Sources */,
@@ -318,6 +323,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = J2V8EZ5Q7Z;
 				INFOPLIST_FILE = "Virtual Tourist/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "zukka.dev.Virtual-Tourist";
@@ -330,6 +336,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = J2V8EZ5Q7Z;
 				INFOPLIST_FILE = "Virtual Tourist/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "zukka.dev.Virtual-Tourist";
@@ -357,6 +364,7 @@
 				B6D6804E1F4EAC7B000273CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

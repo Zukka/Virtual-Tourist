@@ -7,11 +7,17 @@
 //
 
 import Foundation
+import MapKit
 import CoreData
 
 @objc(Pin)
 public class Pin: NSManagedObject {
     // MARK: Initializer
+    
+    // In Swift, superclass initializers are not available to subclasses, so it is necessary to include this initializer and call the superclass' implementation of it.
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertInto: context)
+    }
     
     convenience init(latitude: Double, longitude: Double, title : String, subtitle: String, context: NSManagedObjectContext) {
         
@@ -27,6 +33,16 @@ public class Pin: NSManagedObject {
         } else {
             fatalError("Unable to find Entity name!")
         }
+    }
+    
+    var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+    
+        
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataController.sharedInstance().managedObjectContext
+        
     }
 
 }

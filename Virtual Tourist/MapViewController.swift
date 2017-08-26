@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
@@ -22,9 +23,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var userPosition: CLLocationCoordinate2D!
     var positionManager: CLLocationManager!
     
+    var mapPin :[Pin] = []
+    
+    // Core Data
+    var sharedObjectContext: NSManagedObjectContext {
+        return CoreDataController.sharedInstance().managedObjectContext
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set the map view delegate
+        mapView.delegate = self
+                
         preparePositionManager()
         
         addGestureRecognizerToMapView()
@@ -45,9 +55,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
         
         // Load Pins from CoreData
-        let Pins: [Pin] = CoreDataController.shared.loadAllPin()
-        if Pins.count > 0 {
-            appendPinsToMap(Pins: Pins)
+        let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+        do {
+            let Pins: [Pin] = try sharedObjectContext.fetch(fr) as! [Pin]
+            if Pins.count > 0 {
+                appendPinsToMap(Pins: Pins)
+            }
+        } catch {
+            print (error.localizedDescription)
         }
     }
 
@@ -124,11 +139,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             //Now use this coordinate to add annotation on map.
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
+            
             // Add pin to CoreData
-            let success = CoreDataController.shared.addPin(latitude: coordinate.latitude, longitude: coordinate.longitude)
-            if success {
-                self.mapView.addAnnotation(annotation)
-            }
+            let newPinAdded = Pin(latitude: coordinate.latitude, longitude: coordinate.longitude, title: "", subtitle: "", context: sharedObjectContext)
+            
+            // Add pin to MapView
+            self.mapPin.append(newPinAdded)
+            mapView.addAnnotation(annotation)
         }
     }
     
@@ -137,28 +154,48 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             let annotation = MKPointAnnotation()
             let coordinate = CLLocationCoordinate2DMake(item.latitude, item.longitude)
             annotation.coordinate = coordinate
-            self.mapView.addAnnotation(annotation)
+            mapView.addAnnotation(annotation)
+            mapPin.append(item)
         }
     }
+    
     // MARK: - MKMapViewDelegate
     
     // Here we create a view with a "right callout accessory view". You might choose to look into other
     // decoration alternatives. Notice the similarity between this method and the cellForRowAtIndexPath
     // method in TableViewDataSource.
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+  
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        mapView.deselectAnnotation(view.annotation, animated: true)
         
-        let reuseId = "pin"
-        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
-        if pinView == nil {
-            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-            pinView!.canShowCallout = true
-            pinView!.pinTintColor = .red
-            pinView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        if editButton.title == "Done" {
+            for item in mapPin {
+                if item.latitude == view.annotation!.coordinate.latitude && item.longitude == view.annotation!.coordinate.longitude {
+                    // remove PIN from CoreData
+                    sharedObjectContext.delete(item)
+                    
+                    // Delete Pin from mapView
+                    mapView.removeAnnotation(view.annotation!)
+                    
+                    // save context
+                    do {
+                        try sharedObjectContext.save()
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+        } else {
+            // OPEN photosViewController
+            
         }
-        else {
-            pinView!.annotation = annotation
-        }
-        return pinView
     }
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pin")
+        annotationView.canShowCallout = false
+        
+        return annotationView
+    }
 }
+
