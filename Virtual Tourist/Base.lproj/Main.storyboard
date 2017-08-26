@@ -65,11 +65,30 @@
                         <outlet property="editButton" destination="21o-lg-MH8" id="CMG-3Q-r6a"/>
                         <outlet property="infoView" destination="GPY-ZO-bhE" id="BgH-WQ-cGP"/>
                         <outlet property="mapView" destination="zIf-Iw-rfw" id="Vss-m3-n99"/>
+                        <segue destination="T6k-YY-BF2" kind="show" identifier="segueToFlickPhotos" id="sks-GG-bY9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="972" y="38.23088455772114"/>
+        </scene>
+        <!--Flick Photos View Controller-->
+        <scene sceneID="JMX-xT-OY5">
+            <objects>
+                <viewController id="T6k-YY-BF2" customClass="FlickPhotosViewController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="R7r-8o-FAq"/>
+                        <viewControllerLayoutGuide type="bottom" id="L5q-Lt-ipP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7FN-Bz-7wn">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Y2M-bt-iiw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1668" y="33"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="MgJ-E7-rug">

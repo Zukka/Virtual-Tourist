@@ -194,6 +194,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         } else {
             // OPEN photosViewController
             
+            FlickClient.sharedInstance().getImageFromFlickrBySearch(latidude: (view.annotation?.coordinate.latitude)!, longitude: (view.annotation?.coordinate.longitude)!, withPageNumber: 1, completionHandlerForGetPhotos: { (success, error) in
+                if error != nil {
+                    print(error!.localizedDescription)
+                } else {
+                    print("Success")
+                }
+            })
         }
     }
     
