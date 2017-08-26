@@ -10,17 +10,23 @@ import UIKit
 
 class FlickPhotosViewController: UIViewController {
 
+    var flickLatitude = Double()
+    var flickLongitude =  Double()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-    }
+        // Use withPageNumber with -99 value for first call
+        
+        FlickClient.sharedInstance().getImageFromFlickrBySearch(latidude: flickLatitude, longitude: flickLongitude, withPageNumber: -99, completionHandlerForGetPhotos: { (success, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            } else {
+                print("Success")
+            }
+        })
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
 
     /*
     // MARK: - Navigation

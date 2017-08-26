@@ -12,10 +12,17 @@ extension FlickClient {
 
     // MARK: GET func
 
+    
     // input are latitude, longitude and a random page
     func getImageFromFlickrBySearch(latidude: Double, longitude: Double, withPageNumber: Int, completionHandlerForGetPhotos: @escaping (_ result: Bool?, _ error: NSError?) -> Void) {
         /* 1. Specify parameters, the API method, and the HTTP body (if POST) */
-        let parameters: [String: String] = [Constants.FlickrParameterKeys.SafeSearch: Constants.FlickrParameterValues.UseSafeSearch, Constants.FlickrParameterKeys.Method: Constants.FlickrParameterValues.SearchMethod, Constants.FlickrParameterKeys.APIKey: Constants.FlickrParameterValues.APIKey, Constants.FlickrParameterKeys.BoundingBox: bboxString(latitude: latidude, longitude: longitude), Constants.FlickrParameterKeys.Extras: Constants.FlickrParameterValues.MediumURL, Constants.FlickrParameterKeys.Format: Constants.FlickrParameterValues.ResponseFormat, Constants.FlickrParameterKeys.NoJSONCallback: Constants.FlickrParameterValues.DisableJSONCallback, Constants.FlickrParameterKeys.Page: "\(withPageNumber)" ]
+        
+        var parameters: [String: AnyObject] = [Constants.FlickrParameterKeys.SafeSearch: Constants.FlickrParameterValues.UseSafeSearch as AnyObject, Constants.FlickrParameterKeys.Method: Constants.FlickrParameterValues.SearchMethod as AnyObject, Constants.FlickrParameterKeys.APIKey: Constants.FlickrParameterValues.APIKey as AnyObject, Constants.FlickrParameterKeys.BoundingBox: bboxString(latitude: latidude, longitude: longitude) as AnyObject, Constants.FlickrParameterKeys.Extras: Constants.FlickrParameterValues.MediumURL as AnyObject, Constants.FlickrParameterKeys.Format: Constants.FlickrParameterValues.ResponseFormat as AnyObject, Constants.FlickrParameterKeys.NoJSONCallback: Constants.FlickrParameterValues.DisableJSONCallback as AnyObject]
+        
+        if withPageNumber != -99 {
+            parameters[Constants.FlickrParameterKeys.Page] = withPageNumber as AnyObject
+        }
+
 
         let _ = taskForGETMethod(parameters as [String : AnyObject]) { (results, error) in
             if error != nil {

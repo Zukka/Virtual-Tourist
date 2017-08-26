@@ -193,8 +193,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             }
         } else {
             // OPEN photosViewController
+            self.performSegue(withIdentifier: "segueToFlickPhotos", sender: nil)
             
-            FlickClient.sharedInstance().getImageFromFlickrBySearch(latidude: (view.annotation?.coordinate.latitude)!, longitude: (view.annotation?.coordinate.longitude)!, withPageNumber: 1, completionHandlerForGetPhotos: { (success, error) in
+            
+            // Use withPageNumber with -99 value for first call
+            
+            FlickClient.sharedInstance().getImageFromFlickrBySearch(latidude: (view.annotation?.coordinate.latitude)!, longitude: (view.annotation?.coordinate.longitude)!, withPageNumber: -99, completionHandlerForGetPhotos: { (success, error) in
                 if error != nil {
                     print(error!.localizedDescription)
                 } else {
@@ -209,6 +213,28 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         annotationView.canShowCallout = false
         
         return annotationView
+    }
+    
+    // MARK : Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        guard segue.identifier != nil else {
+            return
+        }
+        
+        switch segue.identifier! {
+        case "segueToFlickPhotos":
+            
+            // retrive current latitude and longitude
+            
+            (segue.destination as! FlickPhotosViewController).flickLatitude = 0
+            (segue.destination as! FlickPhotosViewController).flickLongitude = 0
+            
+        default:
+            
+            break
+        }
     }
 }
 
