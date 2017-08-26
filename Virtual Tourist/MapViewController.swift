@@ -24,6 +24,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var positionManager: CLLocationManager!
     
     var mapPin :[Pin] = []
+    var selectedPin : Pin?
     
     // Core Data
     var sharedObjectContext: NSManagedObjectContext {
@@ -173,7 +174,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
   
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         mapView.deselectAnnotation(view.annotation, animated: true)
-        
+        // qui devo assegnare il selectedPin per poterlo passare al prepare for segue func
         if editButton.title == "Done" {
             for item in mapPin {
                 if item.latitude == view.annotation?.coordinate.latitude && item.longitude == view.annotation?.coordinate.longitude {
@@ -226,7 +227,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         switch segue.identifier! {
         case "segueToFlickPhotos":
             
-            // retrive current latitude and longitude
+                      // retrive current latitude and longitude
             
             (segue.destination as! FlickPhotosViewController).flickLatitude = 0
             (segue.destination as! FlickPhotosViewController).flickLongitude = 0
