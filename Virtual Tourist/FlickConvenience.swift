@@ -29,7 +29,8 @@ extension FlickClient {
                 completionHandlerForGetPhotos(nil, error as NSError?)
                 return
             }
-            print(results!)
+            completionHandlerForGetPhotos(true, nil)
+//            print(results!)
             // pick a random page!
 //            let pageLimit = min(totalPages, 40)
 //            let randomPage = Int(arc4random_uniform(UInt32(pageLimit))) + 1

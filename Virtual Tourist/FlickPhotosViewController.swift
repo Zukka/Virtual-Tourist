@@ -7,25 +7,47 @@
 //
 
 import UIKit
+import CoreData
+import MapKit
 
 class FlickPhotosViewController: UIViewController {
 
-    var flickLatitude = Double()
-    var flickLongitude =  Double()
+    // MARK: Properties
+    
+    // Core Data
+    var sharedObjectContext: NSManagedObjectContext {
+        return CoreDataController.sharedInstance().managedObjectContext
+    }
+   
+    var pinSelected = Pin()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Use withPageNumber with -99 value for first call
+        // Create Fetch Request
+        let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
+        let pred = NSPredicate(format: "pin = %@", argumentArray: [pinSelected])
+        fr.predicate = pred
         
-        FlickClient.sharedInstance().getImageFromFlickrBySearch(latidude: flickLatitude, longitude: flickLongitude, withPageNumber: -99, completionHandlerForGetPhotos: { (success, error) in
-            if error != nil {
-                print(error!.localizedDescription)
-            } else {
-                print("Success")
+        do {
+            let Photos: [Photo] = try sharedObjectContext.fetch(fr) as! [Photo]
+            if Photos.count == 0 {
+                
+                // Use withPageNumber with -99 value for first call
+                
+                FlickClient.sharedInstance().getImageFromFlickrBySearch(latidude: pinSelected.latitude, longitude: pinSelected.longitude, withPageNumber: -99, completionHandlerForGetPhotos: { (success, error) in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                    } else {
+                        print("Success")
+                    }
+                })
             }
-        })
 
+        } catch {
+            print (error.localizedDescription)
+
+        }
     }
 
     /*

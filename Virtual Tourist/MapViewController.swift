@@ -24,7 +24,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var positionManager: CLLocationManager!
     
     var mapPin :[Pin] = []
-    var selectedPin : Pin?
+    var selectedPin = Pin()
     
     // Core Data
     var sharedObjectContext: NSManagedObjectContext {
@@ -59,7 +59,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         do {
             let Pins: [Pin] = try sharedObjectContext.fetch(fr) as! [Pin]
-            print(Pins.count)
             if Pins.count > 0 {
                 appendPinsToMap(Pins: Pins)
             }
@@ -174,10 +173,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
   
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         mapView.deselectAnnotation(view.annotation, animated: true)
-        // qui devo assegnare il selectedPin per poterlo passare al prepare for segue func
-        if editButton.title == "Done" {
-            for item in mapPin {
-                if item.latitude == view.annotation?.coordinate.latitude && item.longitude == view.annotation?.coordinate.longitude {
+        
+        for item in mapPin {
+            if item.latitude == view.annotation?.coordinate.latitude && item.longitude == view.annotation?.coordinate.longitude {
+                if editButton.title == "Done" {
                     // remove PIN from CoreData
                     sharedObjectContext.delete(item)
                     
@@ -190,23 +189,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     } catch {
                         print(error.localizedDescription)
                     }
+                } else {
+                    selectedPin = item
+                    // OPEN photosViewController
+                    self.performSegue(withIdentifier: "segueToFlickPhotos", sender: nil)
                 }
             }
-        } else {
-            // OPEN photosViewController
-            self.performSegue(withIdentifier: "segueToFlickPhotos", sender: nil)
-            
-            
-            // Use withPageNumber with -99 value for first call
-            
-            FlickClient.sharedInstance().getImageFromFlickrBySearch(latidude: (view.annotation?.coordinate.latitude)!, longitude: (view.annotation?.coordinate.longitude)!, withPageNumber: -99, completionHandlerForGetPhotos: { (success, error) in
-                if error != nil {
-                    print(error!.localizedDescription)
-                } else {
-                    print("Success")
-                }
-            })
         }
+        
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -227,10 +217,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         switch segue.identifier! {
         case "segueToFlickPhotos":
             
-                      // retrive current latitude and longitude
+            // Send the current pin to FlickPhotosViewController
             
-            (segue.destination as! FlickPhotosViewController).flickLatitude = 0
-            (segue.destination as! FlickPhotosViewController).flickLongitude = 0
+            (segue.destination as! FlickPhotosViewController).pinSelected = selectedPin
             
         default:
             
