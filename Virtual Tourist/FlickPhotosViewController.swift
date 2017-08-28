@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import MapKit
 
-class FlickPhotosViewController: UIViewController {
+class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     // MARK: Properties
     
@@ -20,10 +20,19 @@ class FlickPhotosViewController: UIViewController {
     }
    
     var pinSelected = Pin()
+    let locationManager = CLLocationManager()
+    // MARK: IBOutlet
+    @IBOutlet weak var photoMapView: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        locationManager.delegate = self
+        locationManager.startUpdatingLocation()
+        photoMapView.delegate = self
+        
+        dropCurrentPinOnMapView(pinLatitude: pinSelected.latitude, pinLongitude: pinSelected.longitude)
+        
         // Create Fetch Request
         let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
         let pred = NSPredicate(format: "pin = %@", argumentArray: [pinSelected])
@@ -50,6 +59,20 @@ class FlickPhotosViewController: UIViewController {
         }
     }
 
+    // MARK: MapView func
+    
+    func dropCurrentPinOnMapView(pinLatitude: Double, pinLongitude: Double) {
+        let annotation = MKPointAnnotation()
+        
+        let location = CLLocationCoordinate2D(latitude: pinLatitude, longitude: pinLongitude)
+        let center = location
+        let region = MKCoordinateRegionMake(center, MKCoordinateSpan(latitudeDelta: 0.20, longitudeDelta: 0.20))
+        photoMapView.setRegion(region, animated: true)
+        annotation.coordinate = location
+        photoMapView.addAnnotation(annotation)
+
+
+    }
     /*
     // MARK: - Navigation
 

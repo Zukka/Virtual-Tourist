@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -83,12 +84,26 @@
                     <view key="view" contentMode="scaleToFill" id="7FN-Bz-7wn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsBuildings="NO" showsCompass="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JP6-Um-Q6w">
+                                <rect key="frame" x="0.0" y="64" width="375" height="133.5"/>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="JP6-Um-Q6w" firstAttribute="leading" secondItem="7FN-Bz-7wn" secondAttribute="leading" id="0iO-4G-Z1v"/>
+                            <constraint firstItem="JP6-Um-Q6w" firstAttribute="height" secondItem="7FN-Bz-7wn" secondAttribute="height" multiplier="0.2" id="L1T-J5-G54"/>
+                            <constraint firstItem="JP6-Um-Q6w" firstAttribute="top" secondItem="R7r-8o-FAq" secondAttribute="bottom" id="T6K-xD-Ex6"/>
+                            <constraint firstAttribute="trailing" secondItem="JP6-Um-Q6w" secondAttribute="trailing" id="eXS-gd-hq6"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="photoMapView" destination="JP6-Um-Q6w" id="C7l-BL-S8M"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y2M-bt-iiw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1668" y="33"/>
+            <point key="canvasLocation" x="1668" y="32.833583208395808"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="MgJ-E7-rug">
