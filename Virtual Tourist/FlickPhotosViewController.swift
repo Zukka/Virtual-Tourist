@@ -63,8 +63,8 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
         } catch let error as NSError {
             print("\(error)")
         }
-        if flirckPhotos?.count == 0 {
-            FlickClient.sharedInstance().getImageFromFlickrBySearch(latidude: (pinSelected?.latitude)!, longitude: (pinSelected?.longitude)!, withPageNumber: FlickClient.numbersOfPages, completionHandlerForGetPhotos: { (photosURL, error) in
+        if flirckPhotos?.count == 900 {
+            FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: pinSelected, latidude: (pinSelected?.latitude)!, longitude: (pinSelected?.longitude)!, withPageNumber: FlickClient.numbersOfPages, completionHandlerForGetPhotos: { (photosURL, error) in
                 performUIUpdatesOnMain {
                     if error != nil {
                         print(error!.localizedDescription)
@@ -74,8 +74,9 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
                             let imageData = try? Data(contentsOf: imageURL!)
                             if let newPhoto = self.pinSelected, let context = self.fetchedResultsController?.managedObjectContext {
                                 // Just create a new image and you're done!
-                                let photo = Photo(imageData: (imageData as NSData?)!, imageURL: item, context: context)
-                                photo.pin = newPhoto
+                                let _ = Photo(imageData: (imageData as NSData?)!, imageURL: item, pin: newPhoto, context: context)
+                               
+                                
                                 // save context
                                 do {
                                     try self.sharedObjectContext.save()

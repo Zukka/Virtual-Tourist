@@ -152,6 +152,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             // Add pin to MapView
             self.mapPin.append(newPinAdded)
             mapView.addAnnotation(annotation)
+            
+            // Download Flirck photos immediately
+            selectedPin = newPinAdded
+            FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: selectedPin, latidude: (selectedPin?.latitude)!, longitude: (selectedPin?.longitude)!, withPageNumber: FlickClient.numbersOfPages, completionHandlerForGetPhotos: { (success, error) in
+            })
         }
     }
     

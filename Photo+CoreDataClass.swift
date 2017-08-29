@@ -18,7 +18,7 @@ public class Photo: NSManagedObject {
         super.init(entity: entity, insertInto: context)
     }
     
-    convenience init(imageData: NSData, imageURL: String, context: NSManagedObjectContext) {
+    convenience init(imageData: NSData, imageURL: String, pin: Pin, context: NSManagedObjectContext) {
         
         // An EntityDescription is an object that has access to all
         // the information you provided in the Entity part of the model

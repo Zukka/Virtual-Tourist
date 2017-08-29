@@ -20,7 +20,7 @@ extension FlickClient {
 
     
     // input are latitude, longitude and a random page
-    func getImageFromFlickrBySearch(latidude: Double, longitude: Double, withPageNumber: Int, completionHandlerForGetPhotos: @escaping (_ photosURL: [String], _ error: NSError?) -> Void) {
+    func getImageFromFlickrBySearch(pin: Pin?, latidude: Double, longitude: Double, withPageNumber: Int, completionHandlerForGetPhotos: @escaping (_ photosURL: [String], _ error: NSError?) -> Void) {
         /* 1. Specify parameters, the API method, and the HTTP body (if POST) */
         
         // Using 'Constants.FlickrParameterKeys.PerPages' parameter I get custom Photos per page, in my case I use 21 for page
@@ -40,8 +40,9 @@ extension FlickClient {
             
             let photosDictionary = results?[Constants.FlickrResponseKeys.Photos] as? [String:AnyObject]
             if let photosArray = photosDictionary?[Constants.FlickrResponseKeys.Photo] as? [[String: AnyObject]] {
-//                FlickClient.numbersOfPages = (photosDictionary?[Constants.FlickrResponseKeys.Pages] as? Int)!
+//                pin = (photosDictionary?[Constants.FlickrResponseKeys.Pages] as? Int)!
 //                print(FlickClient.numbersOfPages)
+                
                 if photosArray.count > 0 {
                     var photoList : [String] = []
                     for i: Int in 0 ..< photosArray.count {
