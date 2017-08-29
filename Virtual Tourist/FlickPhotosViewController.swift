@@ -85,8 +85,14 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
 
                             }
                         }
-                         self.collectionView.reloadData()
-                        
+                       // Refresh for dysplay photos
+                        do {
+                            try self.fetchedResultsController.performFetch()
+                            self.flirckPhotos = try self.sharedObjectContext.fetch(fr) as? [Photo]
+                        } catch let error as NSError {
+                            print("\(error)")
+                        }
+                        self.collectionView.reloadData()
                     }
                 }
             })
@@ -121,14 +127,13 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
     
     // MARK: UICollectionViewDataSource
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return (fetchedResultsController.fetchedObjects?.count)!
+    // Return the number of photos from fetchedResultsController
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
+        
+        let numbersOfItems = self.fetchedResultsController.sections![section]
+        print("Number of photos returned from fetchedResultsController #\(numbersOfItems.numberOfObjects)")
+        
+        return numbersOfItems.numberOfObjects
     }
     
     // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
