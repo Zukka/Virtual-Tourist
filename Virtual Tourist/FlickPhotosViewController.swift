@@ -10,19 +10,24 @@ import UIKit
 import CoreData
 import MapKit
 
-class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, NSFetchedResultsControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+
+    // MARK: IBOutlet
+    @IBOutlet weak var photoMapView: MKMapView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
 
     // MARK: Properties
+    var flirckPhotos : [Photo]?
+    var pinSelected : Pin?
+    let locationManager = CLLocationManager()
+    
+    var fetchedResultsController : NSFetchedResultsController<Photo>!
     
     // Core Data
     var sharedObjectContext: NSManagedObjectContext {
         return CoreDataController.sharedInstance().managedObjectContext
     }
-   
-    var pinSelected = Pin()
-    let locationManager = CLLocationManager()
-    // MARK: IBOutlet
-    @IBOutlet weak var photoMapView: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,34 +36,76 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
         locationManager.startUpdatingLocation()
         photoMapView.delegate = self
         
-        dropCurrentPinOnMapView(pinLatitude: pinSelected.latitude, pinLongitude: pinSelected.longitude)
+        dropCurrentPinOnMapView(pinLatitude: (pinSelected?.latitude)!, pinLongitude: (pinSelected?.longitude)!)
+        
+        // Set flowLayout 
+        setUpFlowLayout()
+        
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+
         
         // Create Fetch Request
         let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
-        let pred = NSPredicate(format: "pin = %@", argumentArray: [pinSelected])
+        fr.sortDescriptors = [NSSortDescriptor(key: "imageURL", ascending: true)]
+        let pred = NSPredicate(format: "pin == %@", pinSelected!)
         fr.predicate = pred
         
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fr as! NSFetchRequest<Photo>, managedObjectContext: sharedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+
         do {
-            let Photos: [Photo] = try sharedObjectContext.fetch(fr) as! [Photo]
-            if Photos.count == 0 {
-                
-                // Use withPageNumber with -99 value for first call
-                
-                FlickClient.sharedInstance().getImageFromFlickrBySearch(latidude: pinSelected.latitude, longitude: pinSelected.longitude, withPageNumber: -99, completionHandlerForGetPhotos: { (success, error) in
+            try fetchedResultsController.performFetch()
+            flirckPhotos = try sharedObjectContext.fetch(fr) as? [Photo]
+            print("Flirck Photo are: \(flirckPhotos!.count)")
+
+        } catch let error as NSError {
+            print("\(error)")
+        }
+        if flirckPhotos?.count == 0 {
+            FlickClient.sharedInstance().getImageFromFlickrBySearch(latidude: (pinSelected?.latitude)!, longitude: (pinSelected?.longitude)!, withPageNumber: FlickClient.numbersOfPages, completionHandlerForGetPhotos: { (photosURL, error) in
+                performUIUpdatesOnMain {
                     if error != nil {
                         print(error!.localizedDescription)
                     } else {
-                        print("Success")
+                        for item in photosURL {
+                            let imageURL = URL(string: item)
+                            let imageData = try? Data(contentsOf: imageURL!)
+                            if let newPhoto = self.pinSelected, let context = self.fetchedResultsController?.managedObjectContext {
+                                // Just create a new image and you're done!
+                                let photo = Photo(imageData: (imageData as NSData?)!, imageURL: item, context: context)
+                                photo.pin = newPhoto
+                                // save context
+                                do {
+                                    try self.sharedObjectContext.save()
+                                } catch {
+                                    print(error.localizedDescription)
+                                }
+
+                            }
+                        }
+                         self.collectionView.reloadData()
+                        
                     }
-                })
-            }
-
-        } catch {
-            print (error.localizedDescription)
-
+                }
+            })
         }
+        
     }
 
+    // MARK: FlowLayout func
+    
+    func setUpFlowLayout() {
+        let space:CGFloat = 3.0
+        let dimension = (view.frame.size.width - (2 * space)) / 3.0
+        
+        flowLayout.minimumInteritemSpacing = space
+        flowLayout.minimumLineSpacing = space
+        flowLayout.itemSize = CGSize(width: dimension, height: dimension)
+
+    }
+    
     // MARK: MapView func
     
     func dropCurrentPinOnMapView(pinLatitude: Double, pinLongitude: Double) {
@@ -70,9 +117,31 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
         photoMapView.setRegion(region, animated: true)
         annotation.coordinate = location
         photoMapView.addAnnotation(annotation)
-
-
     }
+    
+    // MARK: UICollectionViewDataSource
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of items
+        return (fetchedResultsController.fetchedObjects?.count)!
+    }
+    
+    // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! PhotoCollectionViewCell
+        let flickPhoto = fetchedResultsController.object(at: indexPath)
+        if let image = UIImage(data:flickPhoto.imageData! as Data) {
+            cell.flickImageViewCell.image = image
+        }
+        return cell
+    }
+
     /*
     // MARK: - Navigation
 

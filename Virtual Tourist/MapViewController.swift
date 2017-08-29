@@ -24,7 +24,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var positionManager: CLLocationManager!
     
     var mapPin :[Pin] = []
-    var selectedPin = Pin()
+    var selectedPin : Pin?
     
     // Core Data
     var sharedObjectContext: NSManagedObjectContext {
@@ -219,7 +219,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             
             // Send the current pin to FlickPhotosViewController
             
-            (segue.destination as! FlickPhotosViewController).pinSelected = selectedPin
+            (segue.destination as! FlickPhotosViewController).pinSelected = selectedPin!
             
         default:
             
