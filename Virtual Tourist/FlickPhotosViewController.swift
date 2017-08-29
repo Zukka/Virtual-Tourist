@@ -45,11 +45,10 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
         collectionView.delegate = self
         collectionView.dataSource = self
 
-        
         // Create Fetch Request
         let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
         fr.sortDescriptors = [NSSortDescriptor(key: "imageURL", ascending: true)]
-        let pred = NSPredicate(format: "pin == %@", pinSelected!)
+        let pred = NSPredicate(format: "pin == %@", self.pinSelected!)
         fr.predicate = pred
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fr as! NSFetchRequest<Photo>, managedObjectContext: sharedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
@@ -57,14 +56,30 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
 
         do {
             try fetchedResultsController.performFetch()
-            flirckPhotos = try sharedObjectContext.fetch(fr) as? [Photo]
-            print("Flirck Photo are: \(flirckPhotos!.count)")
-
         } catch let error as NSError {
             print("\(error)")
         }
-        if flirckPhotos?.count == 900 {
-            FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: pinSelected, latidude: (pinSelected?.latitude)!, longitude: (pinSelected?.longitude)!, withPageNumber: FlickClient.numbersOfPages, completionHandlerForGetPhotos: { (photosURL, error) in
+        
+        // Add notification to observer saved flirck photo
+        NotificationCenter.default.addObserver(self, selector: #selector(FlickPhotosViewController.reloadPhotos(_:)), name: NSNotification.Name(rawValue: "PhotoSaved"), object: nil)
+        
+    }
+    
+    func reloadPhotos(_ notification: Notification) {
+        performUIUpdatesOnMain {
+            do {
+                try self.fetchedResultsController.performFetch()
+            } catch let error as NSError {
+                print("\(error)")
+            }
+
+             self.collectionView.reloadData()
+        }
+           
+        
+    }
+    /*  if flirckPhotos?.count == 900 {
+     FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: pinSelected, latidude: (pinSelected?.latitude)!, longitude: (pinSelected?.longitude)!, withPageNumber: FlickClient.numbersOfPages, completionHandlerForGetPhotos: { (photosURL, error) in
                 performUIUpdatesOnMain {
                     if error != nil {
                         print(error!.localizedDescription)
@@ -98,8 +113,7 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
                 }
             })
         }
-        
-    }
+        */
 
     // MARK: FlowLayout func
     

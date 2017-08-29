@@ -20,7 +20,7 @@ extension FlickClient {
 
     
     // input are latitude, longitude and a random page
-    func getImageFromFlickrBySearch(pin: Pin?, latidude: Double, longitude: Double, withPageNumber: Int, completionHandlerForGetPhotos: @escaping (_ photosURL: [String], _ error: NSError?) -> Void) {
+    func getImageFromFlickrBySearch(pin: Pin?, latidude: Double, longitude: Double, withPageNumber: Int, completionHandlerForGetPhotos: @escaping (_ success: Bool, _ error: NSError?) -> Void) {
         /* 1. Specify parameters, the API method, and the HTTP body (if POST) */
         
         // Using 'Constants.FlickrParameterKeys.PerPages' parameter I get custom Photos per page, in my case I use 21 for page
@@ -33,32 +33,39 @@ extension FlickClient {
 
         let _ = taskForGETMethod(parameters as [String : AnyObject]) { (results, error) in
             if error != nil {
-                completionHandlerForGetPhotos([""], error as NSError?)
+                completionHandlerForGetPhotos(false, error as NSError?)
                 return
             }
             
-            
             let photosDictionary = results?[Constants.FlickrResponseKeys.Photos] as? [String:AnyObject]
             if let photosArray = photosDictionary?[Constants.FlickrResponseKeys.Photo] as? [[String: AnyObject]] {
-//                pin = (photosDictionary?[Constants.FlickrResponseKeys.Pages] as? Int)!
-//                print(FlickClient.numbersOfPages)
-                
+                pin?.numOfPhotoPages = (photosDictionary?[Constants.FlickrResponseKeys.Pages] as? Int)!
                 if photosArray.count > 0 {
-                    var photoList : [String] = []
+                    
                     for i: Int in 0 ..< photosArray.count {
                         let photoDictionary = photosArray[i] as [String: AnyObject]
                         let imageUrlString = photoDictionary[Constants.FlickrResponseKeys.MediumURL] as? String
-                        photoList.append(imageUrlString!)
+                        // Just create a new image and you're done!
+                        let imageURL = URL(string: imageUrlString!)
+                        let imageData = try? Data(contentsOf: imageURL!)
+
+                        print(imageUrlString!)
+                        let newPhoto = Photo(imageData: (imageData as NSData?)!, imageURL: imageUrlString!, pin: pin!, context: self.sharedObjectContext)
+                        newPhoto.pin = pin!
+                        // Posting Notifications
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "PhotoSaved"), object: nil)
                         
+                        // Save context
+                        performUIUpdatesOnMain {
+                            CoreDataController.sharedInstance().saveContext()
+                        }
+
                     }
-                    completionHandlerForGetPhotos(photoList, nil)
+                    completionHandlerForGetPhotos(true, nil)
                 }
                 
                 
             }
-        // Get numbers of pages and assign it to a static var
-            FlickClient.numbersOfPages = -99
-//            print(results!)
             // pick a random page!
 //            let pageLimit = min(totalPages, 40)
 //            let randomPage = Int(arc4random_uniform(UInt32(pageLimit))) + 1

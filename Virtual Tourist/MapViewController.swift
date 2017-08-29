@@ -142,7 +142,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             annotation.coordinate = coordinate
             
             // Add pin to CoreData
-            let newPinAdded = Pin(latitude: coordinate.latitude, longitude: coordinate.longitude, title: "", subtitle: "", context: sharedObjectContext)
+            let newPinAdded = Pin(latitude: coordinate.latitude, longitude: coordinate.longitude, title: "", subtitle: "", numOfPhotoPages: 0,context: sharedObjectContext)
             // save context
             do {
                 try sharedObjectContext.save()
@@ -154,8 +154,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             mapView.addAnnotation(annotation)
             
             // Download Flirck photos immediately
-            selectedPin = newPinAdded
-            FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: selectedPin, latidude: (selectedPin?.latitude)!, longitude: (selectedPin?.longitude)!, withPageNumber: FlickClient.numbersOfPages, completionHandlerForGetPhotos: { (success, error) in
+            print(newPinAdded.latitude)
+            FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: newPinAdded, latidude: newPinAdded.latitude, longitude: newPinAdded.longitude, withPageNumber: FlickClient.numbersOfPages, completionHandlerForGetPhotos: { (success, error) in
             })
         }
     }

@@ -12,6 +12,8 @@ import CoreData
 
 @objc(Pin)
 public class Pin: NSManagedObject {
+    
+    public var numOfPhotoPages: Int?
     // MARK: Initializer
     
     // In Swift, superclass initializers are not available to subclasses, so it is necessary to include this initializer and call the superclass' implementation of it.
@@ -19,7 +21,7 @@ public class Pin: NSManagedObject {
         super.init(entity: entity, insertInto: context)
     }
     
-    convenience init(latitude: Double, longitude: Double, title : String, subtitle: String, context: NSManagedObjectContext) {
+    convenience init(latitude: Double, longitude: Double, title : String, subtitle: String, numOfPhotoPages: Int, context: NSManagedObjectContext) {
         
         // An EntityDescription is an object that has access to all
         // the information you provided in the Entity part of the model
@@ -30,6 +32,7 @@ public class Pin: NSManagedObject {
             self.longitude = longitude
             self.title = title
             self.subtitle = subtitle
+            self.numOfPhotoPages = 0
         } else {
             fatalError("Unable to find Entity name!")
         }
