@@ -66,9 +66,6 @@ extension FlickClient {
                 
                 
             }
-            // pick a random page!
-//            let pageLimit = min(totalPages, 40)
-//            let randomPage = Int(arc4random_uniform(UInt32(pageLimit))) + 1
         }
     }
     

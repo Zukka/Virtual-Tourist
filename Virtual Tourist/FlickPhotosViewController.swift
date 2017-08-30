@@ -6,6 +6,12 @@
 //  Copyright © 2017 Alessandro Bellotti. All rights reserved.
 //
 
+
+
+// pick a random page!
+//            let pageLimit = min(totalPages, 40)
+//            let randomPage = Int(arc4random_uniform(UInt32(pageLimit))) + 1
+
 import UIKit
 import CoreData
 import MapKit
@@ -61,11 +67,11 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
         }
         
         // Add notification to observer saved flirck photo
-        NotificationCenter.default.addObserver(self, selector: #selector(FlickPhotosViewController.reloadPhotos(_:)), name: NSNotification.Name(rawValue: "PhotoSaved"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FlickPhotosViewController.reloadCollectionView(_:)), name: NSNotification.Name(rawValue: "PhotoSaved"), object: nil)
         
     }
     
-    func reloadPhotos(_ notification: Notification) {
+    func reloadCollectionView(_ notification: Notification) {
         performUIUpdatesOnMain {
             do {
                 try self.fetchedResultsController.performFetch()
@@ -75,46 +81,8 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
 
              self.collectionView.reloadData()
         }
-           
-        
     }
-    /*  if flirckPhotos?.count == 900 {
-     FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: pinSelected, latidude: (pinSelected?.latitude)!, longitude: (pinSelected?.longitude)!, withPageNumber: FlickClient.numbersOfPages, completionHandlerForGetPhotos: { (photosURL, error) in
-                performUIUpdatesOnMain {
-                    if error != nil {
-                        print(error!.localizedDescription)
-                    } else {
-                        for item in photosURL {
-                            let imageURL = URL(string: item)
-                            let imageData = try? Data(contentsOf: imageURL!)
-                            if let newPhoto = self.pinSelected, let context = self.fetchedResultsController?.managedObjectContext {
-                                // Just create a new image and you're done!
-                                let _ = Photo(imageData: (imageData as NSData?)!, imageURL: item, pin: newPhoto, context: context)
-                               
-                                
-                                // save context
-                                do {
-                                    try self.sharedObjectContext.save()
-                                } catch {
-                                    print(error.localizedDescription)
-                                }
-
-                            }
-                        }
-                       // Refresh for dysplay photos
-                        do {
-                            try self.fetchedResultsController.performFetch()
-                            self.flirckPhotos = try self.sharedObjectContext.fetch(fr) as? [Photo]
-                        } catch let error as NSError {
-                            print("\(error)")
-                        }
-                        self.collectionView.reloadData()
-                    }
-                }
-            })
-        }
-        */
-
+    
     // MARK: FlowLayout func
     
     func setUpFlowLayout() {
@@ -146,7 +114,6 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
         
         let numbersOfItems = self.fetchedResultsController.sections![section]
-        print("Number of photos returned from fetchedResultsController #\(numbersOfItems.numberOfObjects)")
         
         return numbersOfItems.numberOfObjects
     }
@@ -161,15 +128,5 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
         }
         return cell
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

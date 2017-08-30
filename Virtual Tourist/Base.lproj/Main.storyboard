@@ -105,14 +105,15 @@
                                             <rect key="frame" x="0.0" y="0.0" width="103" height="103"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="BQm-KW-X77">
-                                                    <rect key="frame" x="41" y="41" width="20" height="20"/>
-                                                </activityIndicatorView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iTt-aZ-7Rl">
                                                     <rect key="frame" x="5" y="5" width="93" height="93"/>
                                                 </imageView>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="BQm-KW-X77">
+                                                    <rect key="frame" x="41" y="41" width="20" height="20"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                         </view>
+                                        <color key="backgroundColor" red="0.3694705069" green="0.52688968179999995" blue="0.68635708090000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
                                             <constraint firstItem="BQm-KW-X77" firstAttribute="centerX" secondItem="nQ8-ty-NTW" secondAttribute="centerX" id="0rV-xK-E4E"/>
                                             <constraint firstItem="iTt-aZ-7Rl" firstAttribute="centerX" secondItem="nQ8-ty-NTW" secondAttribute="centerX" id="34O-gj-Tut"/>
@@ -153,7 +154,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y2M-bt-iiw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1668" y="32.833583208395808"/>
+            <point key="canvasLocation" x="1937" y="38"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="MgJ-E7-rug">
