@@ -30,6 +30,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var sharedObjectContext: NSManagedObjectContext {
         return CoreDataController.sharedInstance().managedObjectContext
     }
+    
+    var alertView : UIAlertController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -133,6 +136,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func addAnnotationOnLongPress(gesture: UILongPressGestureRecognizer) {
+        guard editButton.title == "Edit" else {
+            showAlertView(message: AlertMessages.NoPinInEditMode)
+            return
+        }
         
         if gesture.state == .ended {
             let point = gesture.location(in: self.mapView)
@@ -230,6 +237,23 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             
             break
         }
+    }
+    
+    // MARK: AlertView 
+    
+    func showAlertView(message: String) {
+        
+        self.alertView = UIAlertController(title: "Virtual Tourist",
+                                                    message: message,
+                                                    preferredStyle: .alert)
+        // Add action for close alert view
+        let action = UIAlertAction(title: "Close", style: UIAlertActionStyle.default,
+                                   handler: {(paramAction :UIAlertAction!) in
+                                    
+        })
+        alertView!.addAction(action)
+        
+        present(alertView!, animated: true, completion: nil)
     }
 }
 

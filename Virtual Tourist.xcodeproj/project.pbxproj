@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B6147E0F1F56976000051D9B /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6147E0E1F56976000051D9B /* ErrorMessage.swift */; };
 		B626111A1F51834600835FAC /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62611191F51834600835FAC /* CoreDataStack.swift */; };
 		B626111E1F51BDC800835FAC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B626111D1F51BDC800835FAC /* Constants.swift */; };
 		B62611201F51BE5300835FAC /* FlickPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B626111F1F51BE5300835FAC /* FlickPhotosViewController.swift */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		B6147E051F55B28D00051D9B /* Model3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model3.xcdatamodel; sourceTree = "<group>"; };
+		B6147E0E1F56976000051D9B /* ErrorMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
 		B62611191F51834600835FAC /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		B626111D1F51BDC800835FAC /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B626111F1F51BE5300835FAC /* FlickPhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickPhotosViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				B6D680501F4EC851000273CD /* Models */,
 				B6D6804F1F4EAEEF000273CD /* Controller */,
 				B6D6803D1F4EAC7B000273CD /* AppDelegate.swift */,
+				B6147E0E1F56976000051D9B /* ErrorMessage.swift */,
 				B62611211F51BEA500835FAC /* GCDBlackBox.swift */,
 				B691EE461F544B27006CDB77 /* PhotoCollectionViewCell.swift */,
 				B6D680571F4F06FE000273CD /* Assets */,
@@ -238,6 +241,7 @@
 				B691EE471F544B27006CDB77 /* PhotoCollectionViewCell.swift in Sources */,
 				B6D6803E1F4EAC7B000273CD /* AppDelegate.swift in Sources */,
 				B626111E1F51BDC800835FAC /* Constants.swift in Sources */,
+				B6147E0F1F56976000051D9B /* ErrorMessage.swift in Sources */,
 				B6D6805D1F4F272F000273CD /* Pin+CoreDataProperties.swift in Sources */,
 				B6D680531F4EC8ED000273CD /* Model.xcdatamodeld in Sources */,
 				B62611241F51BEFB00835FAC /* FlickClient.swift in Sources */,
