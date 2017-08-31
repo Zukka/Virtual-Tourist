@@ -19,7 +19,7 @@ class CoreDataController {
     
     /**
      *  This class variable provides an easy way to get access
-     *  to a shared instance of the CoreDataStackManager class.
+     *  to a shared instance of the CoreDataController class.
      */
     class func sharedInstance() -> CoreDataController {
         struct Static {
