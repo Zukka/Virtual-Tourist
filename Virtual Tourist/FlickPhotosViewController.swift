@@ -106,9 +106,8 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
     // Return the number of photos from fetchedResultsController
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
         
-        let numbersOfItems = self.fetchedResultsController.sections![section]
-        print(numbersOfItems.numberOfObjects)
-        return numbersOfItems.numberOfObjects
+        let numbersOfItems = self.fetchedResultsController.sections![section].numberOfObjects
+        return numbersOfItems
     }
     
     // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
@@ -125,7 +124,8 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
                 cell.activityIndicator.stopAnimating()
                 cell.flickImageViewCell.image = image
             }
-        } else {
+            buttonNewCollectionIsEnabled(enabled: true)
+        } else if flickPhoto.imageURL != nil {
             performUIUpdatesOnMain {
                 
                 FlickClient.sharedInstance().donloadImageFromURLString(flickPhoto.imageURL!, completionHandler: { (result, error) in
@@ -141,14 +141,48 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
                         
                         self.collectionView.reloadItems(at: [indexPath])
                     }
-                                        
+                    
                 })
             }
+        } else {
+            print("URL Empty")
+        
         }
         return cell
-    }
+}
 
     @IBAction func newCollectionPressed(_ sender: Any) {
+        let photos = self.fetchedResultsController.fetchedObjects
+        for photo in photos! {
+            self.sharedObjectContext.delete(photo)
+            do {
+                try self.sharedObjectContext.save()
+            } catch let error {
+                print(error)
+            }
+        }
         
+        self.collectionView.reloadData()
+        
+        FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: pinSelected, latidude: (pinSelected?.latitude)!, longitude: (pinSelected?.longitude)!, withPageNumber: FlickClient.numbersOfPages, completionHandlerForGetPhotos: { (pages, error) in
+            
+            performUIUpdatesOnMain {
+                
+                if error != nil {
+                    print(error!)
+                } else {
+                    do {
+                        try self.fetchedResultsController.performFetch()
+                        self.flirckPhotos = self.fetchedResultsController.fetchedObjects!
+                    } catch let error as NSError {
+                        print("\(error)")
+                    }
+                    self.collectionView.reloadData()
+                    self.buttonNewCollectionIsEnabled(enabled: true)
+                }
+                
+            }
+        })
+
     }
 }
