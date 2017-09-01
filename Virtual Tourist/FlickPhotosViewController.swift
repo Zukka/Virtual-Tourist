@@ -113,30 +113,32 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
         let flickPhoto = fetchedResultsController.object(at: indexPath) 
         
         if flickPhoto.imageData != nil {
-           
+            
             if let image = UIImage(data:flickPhoto.imageData! as Data) {
                 cell.activityIndicator.stopAnimating()
                 cell.flickImageViewCell.image = image
             }
         } else {
-            FlickClient.sharedInstance().donloadImageFromURLString(flickPhoto.imageURL!, completionHandler: { (result, error) in
-//                performUIUpdatesOnMain {
+            performUIUpdatesOnMain {
+                
+                FlickClient.sharedInstance().donloadImageFromURLString(flickPhoto.imageURL!, completionHandler: { (result, error) in
                     if let image = UIImage(data:result! as Data) {
                         cell.activityIndicator.stopAnimating()
                         cell.flickImageViewCell.image = image
                         flickPhoto.imageData = result! as NSData
-                        CoreDataController.sharedInstance().saveContext()
-//                        do {
-//                            try self.sharedObjectContext.save()
-//                        } catch let error {
-//                            print(error)
-//                        }
+                        do {
+                            try self.sharedObjectContext.save()
+                        } catch let error {
+                            print(error)
+                        }
+                        
                         self.collectionView.reloadItems(at: [indexPath])
                     }
                     
-//                    
-//                }
-            })
+                    
+                    
+                })
+            }
         }
         return cell
     }
