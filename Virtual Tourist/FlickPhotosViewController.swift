@@ -72,15 +72,16 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
     }
     
     func reloadCollectionView(_ notification: Notification) {
-        performUIUpdatesOnMain {
+        
+        
             do {
                 try self.fetchedResultsController.performFetch()
             } catch let error as NSError {
                 print("\(error)")
             }
-
-             self.collectionView.reloadData()
-        }
+            
+            self.collectionView.reloadData()
+       
     }
     
     // MARK: FlowLayout func
@@ -114,7 +115,7 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
         
         let numbersOfItems = self.fetchedResultsController.sections![section]
-        
+        print(numbersOfItems.numberOfObjects)
         return numbersOfItems.numberOfObjects
     }
     
@@ -122,10 +123,28 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! PhotoCollectionViewCell
+        cell.flickImageViewCell.image = nil
+        cell.activityIndicator.startAnimating()
         let flickPhoto = fetchedResultsController.object(at: indexPath)
-        if let image = UIImage(data:flickPhoto.imageData! as Data) {
-            cell.flickImageViewCell.image = image
+        
+       
+            
+        if flickPhoto.imageData != nil {
+           
+            if let image = UIImage(data:flickPhoto.imageData! as Data) {
+                cell.activityIndicator.stopAnimating()
+                cell.flickImageViewCell.image = image
+            }
+        } else {
+            performUIUpdatesOnMain {
+                FlickClient.sharedInstance().donloadImageFromURLString(flickPhoto.imageURL!, photo: flickPhoto, completionHandler: { (success, error) in
+               
+            })
+            }
+            
         }
+
+        
         return cell
     }
 

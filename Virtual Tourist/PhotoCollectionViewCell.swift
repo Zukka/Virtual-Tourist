@@ -14,13 +14,5 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var flickImageViewCell: UIImageView!
     
-    override func prepareForReuse() {
-        
-        super.prepareForReuse()
-        
-        if flickImageViewCell.image == nil {
-            activityIndicator.startAnimating()
-        }
-    }
-
+    
 }

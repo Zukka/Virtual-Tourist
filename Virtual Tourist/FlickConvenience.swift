@@ -28,6 +28,8 @@ extension FlickClient {
         
         if withPageNumber != -99 {
             parameters[Constants.FlickrParameterKeys.Page] = withPageNumber as AnyObject
+        } else {
+            parameters[Constants.FlickrParameterKeys.Page] = Constants.FlickrParameterValues.Page as AnyObject
         }
 
 
@@ -46,21 +48,17 @@ extension FlickClient {
                         let photoDictionary = photosArray[i] as [String: AnyObject]
                         let imageUrlString = photoDictionary[Constants.FlickrResponseKeys.MediumURL] as? String
                         // Just create a new image and you're done!
-                        let imageURL = URL(string: imageUrlString!)
-                        let imageData = try? Data(contentsOf: imageURL!)
+//                        let imageURL = URL(string: imageUrlString!)
+//                        let imageData = try? Data(contentsOf: imageURL!)
 
                         print(imageUrlString!)
-                        let newPhoto = Photo(imageData: (imageData as NSData?)!, imageURL: imageUrlString!, pin: pin!, context: self.sharedObjectContext)
-                        newPhoto.pin = pin!
-                        // Posting Notifications
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: "PhotoSaved"), object: nil)
                         
-                        // Save context
-                        performUIUpdatesOnMain {
-                            CoreDataController.sharedInstance().saveContext()
-                        }
-
+                        let newPhoto = Photo(imageURL: imageUrlString!, pin: pin!, context: self.sharedObjectContext)
+                        newPhoto.pin = pin!
+                        CoreDataController.sharedInstance().saveContext()
+                        
                     }
+                    
                     completionHandlerForGetPhotos(true, nil)
                 }
                 
@@ -68,6 +66,22 @@ extension FlickClient {
             }
         }
     }
+    
+    func donloadImageFromURLString(_ urlString: String, photo: Photo, completionHandler: @escaping (_ result: Bool, _ error: NSError?) -> Void) {
+       
+        let imageURL = URL(string: urlString)
+        let imageData = try? Data(contentsOf: imageURL!)
+        if imageData != nil {
+            
+            
+            photo.imageData = imageData! as NSData
+            CoreDataController.sharedInstance().saveContext()
+            // Posting Notifications
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "PhotoSaved"), object: nil)
+        }
+        completionHandler(true,nil)
+    }
+    
     
     // bluild BBoxString
     func bboxString(latitude: Double, longitude: Double) -> String {

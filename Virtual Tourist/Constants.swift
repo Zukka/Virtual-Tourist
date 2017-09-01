@@ -51,6 +51,7 @@ struct Constants {
         static let MediumURL = "url_m"
         static let UseSafeSearch = "1"
         static let PerPages = "21"
+        static let Page = "0"
     }
     
     // MARK: Flickr Response Keys

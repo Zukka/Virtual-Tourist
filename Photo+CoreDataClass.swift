@@ -18,14 +18,13 @@ public class Photo: NSManagedObject {
         super.init(entity: entity, insertInto: context)
     }
     
-    convenience init(imageData: NSData, imageURL: String, pin: Pin, context: NSManagedObjectContext) {
+    convenience init( imageURL: String, pin: Pin, context: NSManagedObjectContext) {
         
         // An EntityDescription is an object that has access to all
         // the information you provided in the Entity part of the model
         // you need it to create an instance of this class.
         if let ent = NSEntityDescription.entity(forEntityName: "Photo", in: context) {
             self.init(entity: ent, insertInto: context)
-            self.imageData = imageData;
             self.imageURL = imageURL
             
         } else {
