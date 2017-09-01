@@ -62,25 +62,10 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
 
         do {
             try fetchedResultsController.performFetch()
+            flirckPhotos = fetchedResultsController.fetchedObjects!
         } catch let error as NSError {
             print("\(error)")
         }
-        
-        // Add notification to observer saved flirck photo
-        NotificationCenter.default.addObserver(self, selector: #selector(FlickPhotosViewController.reloadCollectionView(_:)), name: NSNotification.Name(rawValue: "PhotoSaved"), object: nil)
-        
-    }
-    
-    func reloadCollectionView(_ notification: Notification) {
-        
-        
-            do {
-                try self.fetchedResultsController.performFetch()
-            } catch let error as NSError {
-                print("\(error)")
-            }
-            
-            self.collectionView.reloadData()
        
     }
     
@@ -125,10 +110,8 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! PhotoCollectionViewCell
         cell.flickImageViewCell.image = nil
         cell.activityIndicator.startAnimating()
-        let flickPhoto = fetchedResultsController.object(at: indexPath)
+        let flickPhoto = fetchedResultsController.object(at: indexPath) 
         
-       
-            
         if flickPhoto.imageData != nil {
            
             if let image = UIImage(data:flickPhoto.imageData! as Data) {
@@ -136,15 +119,25 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
                 cell.flickImageViewCell.image = image
             }
         } else {
-            performUIUpdatesOnMain {
-                FlickClient.sharedInstance().donloadImageFromURLString(flickPhoto.imageURL!, photo: flickPhoto, completionHandler: { (success, error) in
-               
+            FlickClient.sharedInstance().donloadImageFromURLString(flickPhoto.imageURL!, completionHandler: { (result, error) in
+//                performUIUpdatesOnMain {
+                    if let image = UIImage(data:result! as Data) {
+                        cell.activityIndicator.stopAnimating()
+                        cell.flickImageViewCell.image = image
+                        flickPhoto.imageData = result! as NSData
+                        CoreDataController.sharedInstance().saveContext()
+//                        do {
+//                            try self.sharedObjectContext.save()
+//                        } catch let error {
+//                            print(error)
+//                        }
+                        self.collectionView.reloadItems(at: [indexPath])
+                    }
+                    
+//                    
+//                }
             })
-            }
-            
         }
-
-        
         return cell
     }
 

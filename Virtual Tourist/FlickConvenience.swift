@@ -55,7 +55,13 @@ extension FlickClient {
                         
                         let newPhoto = Photo(imageURL: imageUrlString!, pin: pin!, context: self.sharedObjectContext)
                         newPhoto.pin = pin!
-                        CoreDataController.sharedInstance().saveContext()
+                        
+                                                do {
+                                                    try self.sharedObjectContext.save()
+                                                } catch let error {
+                                                    print(error)
+                                                }
+
                         
                     }
                     
@@ -67,19 +73,19 @@ extension FlickClient {
         }
     }
     
-    func donloadImageFromURLString(_ urlString: String, photo: Photo, completionHandler: @escaping (_ result: Bool, _ error: NSError?) -> Void) {
+    func donloadImageFromURLString(_ urlString: String, completionHandler: @escaping (_ result: Data?, _ error: NSError?) -> Void) {
        
         let imageURL = URL(string: urlString)
         let imageData = try? Data(contentsOf: imageURL!)
         if imageData != nil {
             
-            
-            photo.imageData = imageData! as NSData
-            CoreDataController.sharedInstance().saveContext()
+            completionHandler(imageData,nil)
+//            photo.imageData = imageData! as NSData
+//            CoreDataController.sharedInstance().saveContext()
             // Posting Notifications
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "PhotoSaved"), object: nil)
+//            NotificationCenter.default.post(name: Notification.Name(rawValue: "PhotoSaved"), object: nil)
         }
-        completionHandler(true,nil)
+        
     }
     
     

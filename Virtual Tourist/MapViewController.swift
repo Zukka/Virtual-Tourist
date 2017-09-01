@@ -163,12 +163,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             // Download Flirck photos immediately
             print(newPinAdded.latitude)
             FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: newPinAdded, latidude: newPinAdded.latitude, longitude: newPinAdded.longitude, withPageNumber: FlickClient.numbersOfPages, completionHandlerForGetPhotos: { (success, error) in
+                
+                performUIUpdatesOnMain {
+                    
                 if error != nil {
                     print(error!)
                 } else {
                     print("Success : \(success)")
                 }
-            })
+
+                }            })
         }
     }
     
