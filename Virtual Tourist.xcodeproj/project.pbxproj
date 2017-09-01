@@ -31,6 +31,7 @@
 		B6147E051F55B28D00051D9B /* Model3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model3.xcdatamodel; sourceTree = "<group>"; };
 		B6147E0E1F56976000051D9B /* ErrorMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
 		B6147E121F58614100051D9B /* Model4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model4.xcdatamodel; sourceTree = "<group>"; };
+		B6147E181F59C70D00051D9B /* Model5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model5.xcdatamodel; sourceTree = "<group>"; };
 		B626111D1F51BDC800835FAC /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B626111F1F51BE5300835FAC /* FlickPhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickPhotosViewController.swift; sourceTree = "<group>"; };
 		B62611211F51BEA500835FAC /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
@@ -415,12 +416,13 @@
 		B6D680511F4EC8ED000273CD /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B6147E181F59C70D00051D9B /* Model5.xcdatamodel */,
 				B6147E121F58614100051D9B /* Model4.xcdatamodel */,
 				B6147E051F55B28D00051D9B /* Model3.xcdatamodel */,
 				B691EE481F545823006CDB77 /* Model2.xcdatamodel */,
 				B6D680521F4EC8ED000273CD /* Model.xcdatamodel */,
 			);
-			currentVersion = B6147E121F58614100051D9B /* Model4.xcdatamodel */;
+			currentVersion = B6147E181F59C70D00051D9B /* Model5.xcdatamodel */;
 			path = Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

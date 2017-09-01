@@ -170,6 +170,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     print(error!)
                 } else {
                     print("Pages are : \(pages)")
+                    newPinAdded.numOfPhotoPages = pages
+                    
+                    // save context
+                    do {
+                        try self.sharedObjectContext.save()
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+
                 }
 
                 }

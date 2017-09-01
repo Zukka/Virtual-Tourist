@@ -152,6 +152,7 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
 }
 
     @IBAction func newCollectionPressed(_ sender: Any) {
+        buttonNewCollectionIsEnabled(enabled: false)
         let photos = self.fetchedResultsController.fetchedObjects
         for photo in photos! {
             self.sharedObjectContext.delete(photo)
@@ -164,7 +165,13 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
         
         self.collectionView.reloadData()
         
-        FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: pinSelected, latidude: (pinSelected?.latitude)!, longitude: (pinSelected?.longitude)!, withPageNumber: FlickClient.numbersOfPages, completionHandlerForGetPhotos: { (pages, error) in
+        // pick a random page!
+        let totalPages = pinSelected?.numOfPhotoPages
+        let pageLimit = min(totalPages!, 40)
+        let randomPage = Int(arc4random_uniform(UInt32(pageLimit))) + 1
+print("\(randomPage) \(totalPages!)")
+        
+        FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: self.pinSelected, latidude: (self.pinSelected?.latitude)!, longitude: (self.pinSelected?.longitude)!, withPageNumber: randomPage, completionHandlerForGetPhotos: { (pages, error) in
             
             performUIUpdatesOnMain {
                 
@@ -181,8 +188,9 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
                     self.buttonNewCollectionIsEnabled(enabled: true)
                 }
                 
-            }
+             }
         })
 
-    }
+   
+}
 }
