@@ -22,6 +22,7 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
     @IBOutlet weak var photoMapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    @IBOutlet weak var newCollectionButton: UIButton!
 
     // MARK: Properties
     var flirckPhotos : [Photo]?
@@ -37,6 +38,8 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        buttonNewCollectionIsEnabled(enabled: false)
         
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
@@ -67,6 +70,10 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
             print("\(error)")
         }
        
+    }
+    // Manage enabled status of newCollection button
+    func buttonNewCollectionIsEnabled (enabled: Bool) {
+        newCollectionButton.isEnabled = enabled
     }
     
     // MARK: FlowLayout func
@@ -134,13 +141,14 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
                         
                         self.collectionView.reloadItems(at: [indexPath])
                     }
-                    
-                    
-                    
+                                        
                 })
             }
         }
         return cell
     }
 
+    @IBAction func newCollectionPressed(_ sender: Any) {
+        
+    }
 }
