@@ -23,6 +23,7 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var newCollectionButton: UIButton!
+    @IBOutlet weak var activityIndicatorForEmptyCollection: UIActivityIndicatorView!
     
     // MARK: Properties
     var flirckPhotos : [Photo]?
@@ -39,6 +40,8 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        activityForEmptyCollectionIsHidden(hidden: true)
         
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
@@ -73,6 +76,11 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
     // Manage enabled status of newCollection button
     func buttonNewCollectionIsEnabled (enabled: Bool) {
         newCollectionButton.isEnabled = enabled
+    }
+    
+    // Manage hidden status for activity indicator
+    func activityForEmptyCollectionIsHidden (hidden: Bool) {
+        activityIndicatorForEmptyCollection.isHidden = hidden
     }
     
     // MARK: FlowLayout func
@@ -142,6 +150,8 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
                     }
                 })
             }
+            activityForEmptyCollectionIsHidden(hidden: true)
+            activityIndicatorForEmptyCollection.stopAnimating()
         }
         return cell
     }
@@ -171,6 +181,12 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
     
     @IBAction func newCollectionPressed(_ sender: Any) {
         buttonNewCollectionIsEnabled(enabled: false)
+        
+        if self.collectionView.numberOfItems(inSection: 0) == 0{
+            activityForEmptyCollectionIsHidden(hidden: false)
+            activityIndicatorForEmptyCollection.startAnimating()
+        }
+        
         let photos = self.fetchedResultsController.fetchedObjects
         for photo in photos! {
             self.sharedObjectContext.delete(photo)
