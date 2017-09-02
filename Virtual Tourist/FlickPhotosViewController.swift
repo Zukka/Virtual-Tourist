@@ -147,6 +147,7 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
             performUIUpdatesOnMain {
                 
                 FlickClient.sharedInstance().donloadImageFromURLString(flickPhoto.imageURL!, completionHandler: { (result, error) in
+                    
                     if let image = UIImage(data:result! as Data) {
                         cell.activityIndicator.stopAnimating()
                         cell.flickImageViewCell.image = image
@@ -158,6 +159,7 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
                             let message = "\(String(describing: error.code)): \(String(describing: error.localizedDescription))"
                             self.showAlertView(message: message)
                         }
+                       
                     }
                 })
             }

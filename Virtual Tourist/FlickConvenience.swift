@@ -46,8 +46,8 @@ extension FlickClient {
                         newPhoto.pin = pin!
                         do {
                             try self.sharedObjectContext.save()
-                        } catch let error {
-                            completionHandlerForGetPhotos(0, error as NSError)
+                        } catch let error as NSError {
+                            completionHandlerForGetPhotos(0, error)
                             return
                         }
                     }
