@@ -149,7 +149,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             annotation.coordinate = coordinate
             
             // Add pin to CoreData
-            let newPinAdded = Pin(latitude: coordinate.latitude, longitude: coordinate.longitude, title: "", subtitle: "", numOfPhotoPages: 0,context: sharedObjectContext)
+            let newPinAdded = Pin(latitude: coordinate.latitude, longitude: coordinate.longitude, title: "", subtitle: "" ,context: sharedObjectContext)
             // save context
             do {
                 try sharedObjectContext.save()
@@ -162,25 +162,17 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             
             // Download Flirck photos immediately
             print(newPinAdded.latitude)
-            FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: newPinAdded, latidude: newPinAdded.latitude, longitude: newPinAdded.longitude, withPageNumber: FlickClient.numbersOfPages, completionHandlerForGetPhotos: { (pages, error) in
+            FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: newPinAdded, latidude: newPinAdded.latitude, longitude: newPinAdded.longitude, withPageNumber: FlickClient.numbersOfPages, completionHandlerForGetPhotos: { (success, error) in
                 
                 performUIUpdatesOnMain {
                     
-                if error != nil {
-                    print(error!)
-                } else {
-                    print("Pages are : \(pages)")
-                    newPinAdded.numOfPhotoPages = pages
-                    
-                    // save context
-                    do {
-                        try self.sharedObjectContext.save()
-                    } catch {
-                        print(error.localizedDescription)
+                    if error != nil {
+                        print(error!)
+                    } else {
+                        
+                        print(success)
                     }
-
-                }
-
+                    
                 }
             })
         }
@@ -222,6 +214,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     }
                 } else {
                     selectedPin = item
+                    print("Pages are : \(String(describing: selectedPin?.numOfPages))")
                     // OPEN photosViewController
                     self.performSegue(withIdentifier: "segueToFlickPhotos", sender: nil)
                 }

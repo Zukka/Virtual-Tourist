@@ -166,10 +166,10 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
         self.collectionView.reloadData()
         
         // pick a random page!
-        let totalPages = pinSelected?.numOfPhotoPages
+        let totalPages = pinSelected?.numOfPages
         let pageLimit = min(totalPages!, 40)
         let randomPage = Int(arc4random_uniform(UInt32(pageLimit))) + 1
-print("\(randomPage) \(totalPages!)")
+        print("\(randomPage) \(totalPages!)")
         
         FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: self.pinSelected, latidude: (self.pinSelected?.latitude)!, longitude: (self.pinSelected?.longitude)!, withPageNumber: randomPage, completionHandlerForGetPhotos: { (pages, error) in
             

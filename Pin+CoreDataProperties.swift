@@ -21,6 +21,7 @@ extension Pin {
     @NSManaged public var title: String?
     @NSManaged public var subtitle: String?
     @NSManaged public var photo: NSSet?
+    @NSManaged public var numOfPages: Int64
 
 }
 

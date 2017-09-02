@@ -42,6 +42,7 @@ extension FlickClient {
             let photosDictionary = results?[Constants.FlickrResponseKeys.Photos] as? [String:AnyObject]
             if let photosArray = photosDictionary?[Constants.FlickrResponseKeys.Photo] as? [[String: AnyObject]] {
                 let numOfPhotoPages = (photosDictionary?[Constants.FlickrResponseKeys.Pages] as? Int)!
+                pin?.numOfPages = Int64(numOfPhotoPages)
                 if photosArray.count > 0 {
                     
                     for i: Int in 0 ..< photosArray.count {
