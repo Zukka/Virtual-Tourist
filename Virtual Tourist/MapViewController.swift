@@ -159,12 +159,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             mapView.addAnnotation(annotation)
             
             // Download Flirck photos immediately
-            print(newPinAdded.latitude)
             FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: newPinAdded, latidude: newPinAdded.latitude, longitude: newPinAdded.longitude, withPageNumber: FlickClient.numbersOfPages, completionHandlerForGetPhotos: { (success, error) in
                 
                 performUIUpdatesOnMain {
                     if error != nil {
-                        let message = "\(String(describing: error?.code)): \(String(describing: error?.localizedDescription))"
+                        let message = "\(String(describing: error!.code)): \(String(describing: error!.localizedDescription))"
                         self.showAlertView(message: message)
                     }
                 }
@@ -209,7 +208,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     }
                 } else {
                     selectedPin = item
-                    print("Pages are : \(String(describing: selectedPin?.numOfPages))")
                     // OPEN photosViewController
                     self.performSegue(withIdentifier: "segueToFlickPhotos", sender: nil)
                 }

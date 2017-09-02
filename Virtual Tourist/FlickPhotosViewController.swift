@@ -148,6 +148,11 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        // if newCollectionButton is disabled refresh collection is active and user can't remove any image from collection view
+        guard newCollectionButton.isEnabled else {
+            return
+        }
+        
         let photo = self.fetchedResultsController?.object(at: indexPath)
         
         self.sharedObjectContext.delete(photo!)
@@ -188,7 +193,7 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
             performUIUpdatesOnMain {
                 
                 if error != nil {
-                    let message = "\(String(describing: error?.code)): \(String(describing: error?.localizedDescription))"
+                    let message = "\(String(describing: error!.code)): \(String(describing: error!.localizedDescription))"
                     self.showAlertView(message: message)
                 } else {
                     do {
@@ -199,8 +204,8 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
                         self.showAlertView(message: message)
                     }
                     self.collectionView.reloadData()
-                    self.buttonNewCollectionIsEnabled(enabled: true)
                 }
+                self.buttonNewCollectionIsEnabled(enabled: true)
             }
         })
     }
