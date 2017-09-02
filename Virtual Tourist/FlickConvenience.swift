@@ -48,6 +48,7 @@ extension FlickClient {
                             try self.sharedObjectContext.save()
                         } catch let error {
                             completionHandlerForGetPhotos(0, error as NSError)
+                            return
                         }
                     }
                     completionHandlerForGetPhotos(numOfPhotoPages, nil)
@@ -63,8 +64,7 @@ extension FlickClient {
         if imageData != nil {
             completionHandler(imageData,nil)
         } else {
-            let userInfo = [NSLocalizedDescriptionKey : "imageData is nil"]
-            completionHandler(nil, NSError(domain: "donloadImageFromURLString", code: 2, userInfo: userInfo))
+            completionHandler(nil, nil)
         }
     }
     
