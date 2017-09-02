@@ -10,4 +10,5 @@ import Foundation
 
 struct AlertMessages {
     static let NoPinInEditMode = "You cann't drop a PIN in edit mode."
+    static let NoPhotosFinded = "No photos find for this Pin."
 }

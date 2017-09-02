@@ -72,7 +72,18 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
             self.showAlertView(message: message)
         }
         
+        checkIfFlirckPhotosIsEmpty(photoArray: flirckPhotos!)
+        
     }
+    
+    // Check if there are photos for this pin
+    func checkIfFlirckPhotosIsEmpty(photoArray: [Photo]) {
+        if photoArray.count == 0 {
+            showAlertView(message: AlertMessages.NoPhotosFinded)
+            buttonNewCollectionIsEnabled(enabled: false)
+        }
+    }
+    
     // Manage enabled status of newCollection button
     func buttonNewCollectionIsEnabled (enabled: Bool) {
         newCollectionButton.isEnabled = enabled
