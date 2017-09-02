@@ -28,6 +28,7 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
     var flirckPhotos : [Photo]?
     var pinSelected : Pin?
     let locationManager = CLLocationManager()
+    var alertView : UIAlertController?
     
     var fetchedResultsController : NSFetchedResultsController<Photo>!
     
@@ -64,7 +65,8 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
             try fetchedResultsController.performFetch()
             flirckPhotos = fetchedResultsController.fetchedObjects!
         } catch let error as NSError {
-            print("\(error)")
+            let message = "\(String(describing: error.code)): \(String(describing: error.localizedDescription))"
+            self.showAlertView(message: message)
         }
         
     }
@@ -133,17 +135,13 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
                         do {
                             try self.sharedObjectContext.save()
                             self.collectionView.reloadItems(at: [indexPath])
-                        } catch let error {
-                            print(error)
+                        } catch let error as NSError {
+                            let message = "\(String(describing: error.code)): \(String(describing: error.localizedDescription))"
+                            self.showAlertView(message: message)
                         }
-                        
                     }
-                    
                 })
             }
-        } else {
-            print("URL Empty")
-            
         }
         return cell
     }
@@ -155,14 +153,11 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
         self.sharedObjectContext.delete(photo!)
         do {
             try self.sharedObjectContext.save()
-        } catch let error {
-            print(error)
-        }
-        do {
             try self.fetchedResultsController.performFetch()
             self.flirckPhotos = self.fetchedResultsController.fetchedObjects!
         } catch let error as NSError {
-            print("\(error)")
+            let message = "\(String(describing: error.code)): \(String(describing: error.localizedDescription))"
+            self.showAlertView(message: message)
         }
         self.collectionView.deleteItems(at: [indexPath])
     }
@@ -176,8 +171,9 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
             self.sharedObjectContext.delete(photo)
             do {
                 try self.sharedObjectContext.save()
-            } catch let error {
-                print(error)
+            } catch let error as NSError {
+                let message = "\(String(describing: error.code)): \(String(describing: error.localizedDescription))"
+                self.showAlertView(message: message)
             }
         }
         
@@ -186,21 +182,21 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
         // pick a random page!
         let totalPages = pinSelected?.numOfPages
         let pageLimit = min(totalPages!, 40)
-        let randomPage = Int(arc4random_uniform(UInt32(pageLimit))) + 1
-        print("\(randomPage) \(totalPages!)")
-        
+        let randomPage = Int(arc4random_uniform(UInt32(pageLimit))) + 1        
         FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: self.pinSelected, latidude: (self.pinSelected?.latitude)!, longitude: (self.pinSelected?.longitude)!, withPageNumber: randomPage, completionHandlerForGetPhotos: { (pages, error) in
             
             performUIUpdatesOnMain {
                 
                 if error != nil {
-                    print(error!)
+                    let message = "\(String(describing: error?.code)): \(String(describing: error?.localizedDescription))"
+                    self.showAlertView(message: message)
                 } else {
                     do {
                         try self.fetchedResultsController.performFetch()
                         self.flirckPhotos = self.fetchedResultsController.fetchedObjects!
                     } catch let error as NSError {
-                        print("\(error)")
+                        let message = "\(String(describing: error.code)): \(String(describing: error.localizedDescription))"
+                        self.showAlertView(message: message)
                     }
                     self.collectionView.reloadData()
                     self.buttonNewCollectionIsEnabled(enabled: true)
@@ -208,4 +204,22 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
             }
         })
     }
+    
+    // MARK: AlertView
+    
+    func showAlertView(message: String) {
+        
+        self.alertView = UIAlertController(title: "Virtual Tourist",
+                                           message: message,
+                                           preferredStyle: .alert)
+        // Add action for close alert view
+        let action = UIAlertAction(title: "Close", style: UIAlertActionStyle.default,
+                                   handler: {(paramAction :UIAlertAction!) in
+                                    
+        })
+        alertView!.addAction(action)
+        
+        present(alertView!, animated: true, completion: nil)
+    }
+
 }

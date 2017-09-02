@@ -63,8 +63,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             if Pins.count > 0 {
                 appendPinsToMap(Pins: Pins)
             }
-        } catch {
-            print (error.localizedDescription)
+        } catch let error as NSError {
+            let message = "\(String(describing: error.code)): \(String(describing: error.localizedDescription))"
+            self.showAlertView(message: message)
         }
     }
     
@@ -149,8 +150,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             // save context
             do {
                 try sharedObjectContext.save()
-            } catch {
-                print(error.localizedDescription)
+            } catch let error as NSError {
+                let message = "\(String(describing: error.code)): \(String(describing: error.localizedDescription))"
+                self.showAlertView(message: message)
             }
             // Add pin to MapView
             self.mapPin.append(newPinAdded)
@@ -162,9 +164,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 
                 performUIUpdatesOnMain {
                     if error != nil {
-                        print(error!)
-                    } else {
-                        print(success)
+                        let message = "\(String(describing: error?.code)): \(String(describing: error?.localizedDescription))"
+                        self.showAlertView(message: message)
                     }
                 }
             })
@@ -202,8 +203,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     // save context
                     do {
                         try sharedObjectContext.save()
-                    } catch {
-                        print(error.localizedDescription)
+                    } catch let error as NSError {
+                        let message = "\(String(describing: error.code)): \(String(describing: error.localizedDescription))"
+                        self.showAlertView(message: message)
                     }
                 } else {
                     selectedPin = item

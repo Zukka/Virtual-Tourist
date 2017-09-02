@@ -42,14 +42,12 @@ extension FlickClient {
                     for i: Int in 0 ..< photosArray.count {
                         let photoDictionary = photosArray[i] as [String: AnyObject]
                         let imageUrlString = photoDictionary[Constants.FlickrResponseKeys.MediumURL] as? String
-                        print(imageUrlString!)
-                        
                         let newPhoto = Photo(imageURL: imageUrlString!, pin: pin!, context: self.sharedObjectContext)
                         newPhoto.pin = pin!
                         do {
                             try self.sharedObjectContext.save()
                         } catch let error {
-                            print(error)
+                            completionHandlerForGetPhotos(0, error as NSError)
                         }
                     }
                     completionHandlerForGetPhotos(numOfPhotoPages, nil)
@@ -64,6 +62,9 @@ extension FlickClient {
         let imageData = try? Data(contentsOf: imageURL!)
         if imageData != nil {
             completionHandler(imageData,nil)
+        } else {
+            let userInfo = [NSLocalizedDescriptionKey : "imageData is nil"]
+            completionHandler(nil, NSError(domain: "donloadImageFromURLString", code: 2, userInfo: userInfo))
         }
     }
     
