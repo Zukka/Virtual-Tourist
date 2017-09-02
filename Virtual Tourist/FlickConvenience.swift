@@ -40,6 +40,8 @@ extension FlickClient {
                 pin?.numOfPages = Int64(numOfPhotoPages)
                 if photosArray.count > 0 {
                     for i: Int in 0 ..< photosArray.count {
+                        performUIUpdatesOnMain {
+                            
                         let photoDictionary = photosArray[i] as [String: AnyObject]
                         let imageUrlString = photoDictionary[Constants.FlickrResponseKeys.MediumURL] as? String
                         let newPhoto = Photo(imageURL: imageUrlString!, pin: pin!, context: self.sharedObjectContext)
@@ -50,6 +52,8 @@ extension FlickClient {
                             completionHandlerForGetPhotos(0, error)
                             return
                         }
+
+                        }                        
                     }
                     completionHandlerForGetPhotos(numOfPhotoPages, nil)
                 }
@@ -57,15 +61,19 @@ extension FlickClient {
         }
     }
     
-    func donloadImageFromURLString(_ urlString: String, completionHandler: @escaping (_ result: Data?, _ error: NSError?) -> Void) {
-        
+    func donloadImageFromURLString(_ urlString: String, completionHandler: @escaping (_ result: Data?, _ error: Error?) -> Void) {
+          
         let imageURL = URL(string: urlString)
-        let imageData = try? Data(contentsOf: imageURL!)
-        if imageData != nil {
-            completionHandler(imageData,nil)
-        } else {
-            completionHandler(nil, nil)
+        let request = URLRequest(url: imageURL!)
+        let task = session.dataTask(with: request) { (results, response, error) in
+            if error == nil {
+                completionHandler(results, nil)
+            } else {
+                completionHandler(nil, error)
+            }
         }
+        task.resume()
+        
     }
     
     // bluild BBoxString

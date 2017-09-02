@@ -144,14 +144,19 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
             }
             buttonNewCollectionIsEnabled(enabled: true)
         } else if flickPhoto.imageURL != nil {
-            performUIUpdatesOnMain {
+            
                 
                 FlickClient.sharedInstance().donloadImageFromURLString(flickPhoto.imageURL!, completionHandler: { (result, error) in
-                    
+                    performUIUpdatesOnMain {
+                        if error != nil {
+                            self.showAlertView(message: AlertMessages.NoPhotoDownloaded)
+                        }
                     if let image = UIImage(data:result! as Data) {
                         cell.activityIndicator.stopAnimating()
                         cell.flickImageViewCell.image = image
+                        
                         flickPhoto.imageData = result! as NSData
+                            
                         do {
                             try self.sharedObjectContext.save()
                             self.collectionView.reloadItems(at: [indexPath])
@@ -159,10 +164,10 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
                             let message = "\(String(describing: error.code)): \(String(describing: error.localizedDescription))"
                             self.showAlertView(message: message)
                         }
-                       
+                        }
                     }
                 })
-            }
+            
             activityForEmptyCollectionIsHidden(hidden: true)
             activityIndicatorForEmptyCollection.stopAnimating()
         }
