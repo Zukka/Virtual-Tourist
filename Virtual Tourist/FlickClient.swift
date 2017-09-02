@@ -81,7 +81,6 @@ class FlickClient : NSObject {
         
         return components.url!
     }
-
     
     // MARK: Shared Instance
     

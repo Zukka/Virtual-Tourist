@@ -17,13 +17,13 @@ import CoreData
 import MapKit
 
 class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, NSFetchedResultsControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
-
+    
     // MARK: IBOutlet
     @IBOutlet weak var photoMapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var newCollectionButton: UIButton!
-
+    
     // MARK: Properties
     var flirckPhotos : [Photo]?
     var pinSelected : Pin?
@@ -39,21 +39,18 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        buttonNewCollectionIsEnabled(enabled: false)
-        
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
         photoMapView.delegate = self
         
         dropCurrentPinOnMapView(pinLatitude: (pinSelected?.latitude)!, pinLongitude: (pinSelected?.longitude)!)
         
-        // Set flowLayout 
+        // Set flowLayout
         setUpFlowLayout()
-        
         
         collectionView.delegate = self
         collectionView.dataSource = self
-
+        
         // Create Fetch Request
         let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
         fr.sortDescriptors = [NSSortDescriptor(key: "imageURL", ascending: true)]
@@ -62,14 +59,14 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fr as! NSFetchRequest<Photo>, managedObjectContext: sharedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
-
+        
         do {
             try fetchedResultsController.performFetch()
             flirckPhotos = fetchedResultsController.fetchedObjects!
         } catch let error as NSError {
             print("\(error)")
         }
-       
+        
     }
     // Manage enabled status of newCollection button
     func buttonNewCollectionIsEnabled (enabled: Bool) {
@@ -85,7 +82,7 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
         flowLayout.minimumInteritemSpacing = space
         flowLayout.minimumLineSpacing = space
         flowLayout.itemSize = CGSize(width: dimension, height: dimension)
-
+        
     }
     
     // MARK: MapView func
@@ -116,7 +113,7 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! PhotoCollectionViewCell
         cell.flickImageViewCell.image = nil
         cell.activityIndicator.startAnimating()
-        let flickPhoto = fetchedResultsController.object(at: indexPath) 
+        let flickPhoto = fetchedResultsController.object(at: indexPath)
         buttonNewCollectionIsEnabled(enabled: false)
         if flickPhoto.imageData != nil {
             
@@ -146,7 +143,7 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
             }
         } else {
             print("URL Empty")
-        
+            
         }
         return cell
     }
@@ -154,27 +151,22 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let photo = self.fetchedResultsController?.object(at: indexPath)
-     
-          self.sharedObjectContext.delete(photo!)
-            do {
-                try self.sharedObjectContext.save()
-            } catch let error {
-                print(error)
-            }
+        
+        self.sharedObjectContext.delete(photo!)
+        do {
+            try self.sharedObjectContext.save()
+        } catch let error {
+            print(error)
+        }
         do {
             try self.fetchedResultsController.performFetch()
             self.flirckPhotos = self.fetchedResultsController.fetchedObjects!
         } catch let error as NSError {
             print("\(error)")
         }
-
-       
         self.collectionView.deleteItems(at: [indexPath])
-        
-        
- 
     }
-
+    
     // MARk: IBAction
     
     @IBAction func newCollectionPressed(_ sender: Any) {
@@ -213,10 +205,7 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
                     self.collectionView.reloadData()
                     self.buttonNewCollectionIsEnabled(enabled: true)
                 }
-                
-             }
+            }
         })
-
-   
-}
+    }
 }

@@ -11,7 +11,7 @@ import MapKit
 import CoreData
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
-
+    
     // MARK: IBOutlet
     
     @IBOutlet weak var infoView: UIView!
@@ -22,7 +22,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     var userPosition: CLLocationCoordinate2D!
     var positionManager: CLLocationManager!
-    
+    var alertView : UIAlertController?
     var mapPin :[Pin] = []
     var selectedPin : Pin?
     
@@ -31,14 +31,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         return CoreDataController.sharedInstance().managedObjectContext
     }
     
-    var alertView : UIAlertController?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Set the map view delegate
         mapView.delegate = self
-                
+        
         preparePositionManager()
         
         addGestureRecognizerToMapView()
@@ -69,7 +67,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             print (error.localizedDescription)
         }
     }
-
+    
     // MARK: IBAction
     
     @IBAction func editButtonPressed(_ sender: Any) {
@@ -99,9 +97,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func renameEditButton (newTitle: String) {
-        
         editButton.title = newTitle
-        
     }
     
     // Move map to last position
@@ -128,7 +124,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         UserDefaults.standard.set(self.mapView.region.span.latitudeDelta, forKey: "PreviousLatitudeSpan")
         UserDefaults.standard.set(self.mapView.region.span.longitudeDelta, forKey: "PreviousongitudeSpan")
     }
-
+    
     func addGestureRecognizerToMapView() {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(addAnnotationOnLongPress(gesture:)))
         longPressGesture.minimumPressDuration = 1.0
@@ -165,14 +161,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             FlickClient.sharedInstance().getImageFromFlickrBySearch(pin: newPinAdded, latidude: newPinAdded.latitude, longitude: newPinAdded.longitude, withPageNumber: FlickClient.numbersOfPages, completionHandlerForGetPhotos: { (success, error) in
                 
                 performUIUpdatesOnMain {
-                    
                     if error != nil {
                         print(error!)
                     } else {
-                        
                         print(success)
                     }
-                    
                 }
             })
         }
@@ -193,7 +186,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     // Here we create a view with a "right callout accessory view". You might choose to look into other
     // decoration alternatives. Notice the similarity between this method and the cellForRowAtIndexPath
     // method in TableViewDataSource.
-  
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         mapView.deselectAnnotation(view.annotation, animated: true)
         
@@ -240,24 +233,21 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         switch segue.identifier! {
         case "segueToFlickPhotos":
-            
             // Send the current pin to FlickPhotosViewController
-            
             (segue.destination as! FlickPhotosViewController).pinSelected = selectedPin!
             
         default:
-            
             break
         }
     }
     
-    // MARK: AlertView 
+    // MARK: AlertView
     
     func showAlertView(message: String) {
         
         self.alertView = UIAlertController(title: "Virtual Tourist",
-                                                    message: message,
-                                                    preferredStyle: .alert)
+                                           message: message,
+                                           preferredStyle: .alert)
         // Add action for close alert view
         let action = UIAlertAction(title: "Close", style: UIAlertActionStyle.default,
                                    handler: {(paramAction :UIAlertAction!) in
