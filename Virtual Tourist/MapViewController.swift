@@ -132,7 +132,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.mapView.addGestureRecognizer(longPressGesture)
     }
     
-    func addAnnotationOnLongPress(gesture: UILongPressGestureRecognizer) {
+    @objc func addAnnotationOnLongPress(gesture: UILongPressGestureRecognizer) {
         guard editButton.title == "Edit" else {
             showAlertView(message: AlertMessages.NoPinInEditMode)
             return
