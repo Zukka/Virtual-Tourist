@@ -113,7 +113,7 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
         
         let location = CLLocationCoordinate2D(latitude: pinLatitude, longitude: pinLongitude)
         let center = location
-        let region = MKCoordinateRegionMake(center, MKCoordinateSpan(latitudeDelta: 0.20, longitudeDelta: 0.20))
+        let region = MKCoordinateRegion.init(center: center, span: MKCoordinateSpan(latitudeDelta: 0.20, longitudeDelta: 0.20))
         photoMapView.setRegion(region, animated: true)
         annotation.coordinate = location
         photoMapView.addAnnotation(annotation)
@@ -252,7 +252,7 @@ class FlickPhotosViewController: UIViewController, MKMapViewDelegate, CLLocation
                                            message: message,
                                            preferredStyle: .alert)
         // Add action for close alert view
-        let action = UIAlertAction(title: "Close", style: UIAlertActionStyle.default,
+        let action = UIAlertAction(title: "Close", style: UIAlertAction.Style.default,
                                    handler: {(paramAction :UIAlertAction!) in
                                     
         })

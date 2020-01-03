@@ -104,7 +104,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     // Move map to last position
     func restoreOldMap(prevLatitude: Double, prevLongitude: Double, prevLatitudeDelta: Double, prevLongitudeDelta: Double) {
         self.userPosition = CLLocationCoordinate2DMake(prevLatitude, prevLongitude)
-        let span = MKCoordinateSpanMake(prevLatitudeDelta, prevLongitudeDelta)
+        let span = MKCoordinateSpan.init(latitudeDelta: prevLatitudeDelta, longitudeDelta: prevLongitudeDelta)
         let region = MKCoordinateRegion(center: userPosition, span: span)
         self.mapView.setRegion(region, animated: true)
     }
@@ -249,7 +249,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                                            message: message,
                                            preferredStyle: .alert)
         // Add action for close alert view
-        let action = UIAlertAction(title: "Close", style: UIAlertActionStyle.default,
+        let action = UIAlertAction(title: "Close", style: UIAlertAction.Style.default,
                                    handler: {(paramAction :UIAlertAction!) in
                                     
         })
