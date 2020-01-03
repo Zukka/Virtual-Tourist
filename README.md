@@ -4,8 +4,8 @@ The Virtual Tourist app downloads and stores images from Flickr. The app allows 
 
 ## Requirements
 
-- Xcode Xcode 9.0
-- Swift 4.0
+- Xcode Xcode 11.3
+- Swift 5.0
 
 ## License
 
